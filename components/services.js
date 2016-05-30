@@ -8,10 +8,21 @@ import {
   TouchableOpacity,
   ListView,
   Linking,
-  TextInput
+  TextInput,
+  AsyncStorage
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
+var LocalDb = require('./LocalDatabase.js');
+
+
+var config = {
+		//baseUrl: "https://checkinadvance.com/",
+		baseUrl: "http://10.1.2.95/CheckinAdvances/",
+		remoteDataUrl: "/",
+		cache: false,
+		timeout: 100000,
+  };
 
 
 exports.loginScript=function(){
@@ -32,7 +43,7 @@ exports.loginScript=function(){
 
          fetch('https://checkinadvance.com/tokenn', {
                               method: 'POST',
-                              timeout: 100000,
+                              timeout: config.timeout,
                               headers: {
                                'Content-Type': 'application/x-www-form-urlencoded'
                               },
@@ -54,6 +65,10 @@ exports.loginScript=function(){
                                                    console.log("PLS PRINT:");
                                                    console.log(responseStatus);
                                                    if(responseStatus == 200){ //proceed to next page
+                                                     var token= responseData.access_token;
+                                                     console.log("Token");
+                                                     console.log(token);
+                                                     LocalDb.storeToken(token);
                                                      Actions.pageTwo();
                                                    }
                                                    else if(responseStatus != 200){  //re render with error message
