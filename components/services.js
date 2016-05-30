@@ -11,6 +11,7 @@ import {
   TextInput
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
 
 
 exports.loginScript=function(){
@@ -43,8 +44,7 @@ exports.loginScript=function(){
                                                   // console.log(response.status);
                                                    //console.log(response.status != 200);
                                                    responseStatus = response.status
-                                                  // console.log("State in loginscript");
-                                                  // console.log(this.state);
+
                                                    return response.json()
                                                   })
                              .then((responseData) => {
@@ -54,7 +54,7 @@ exports.loginScript=function(){
                                                    console.log("PLS PRINT:");
                                                    console.log(responseStatus);
                                                    if(responseStatus == 200){ //proceed to next page
-                                                     this.navigatorPush();
+                                                     Actions.pageTwo();
                                                    }
                                                    else if(responseStatus != 200){  //re render with error message
                                                      this.setState({
