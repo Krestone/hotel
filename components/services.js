@@ -1,24 +1,72 @@
+import React, { Component } from 'react';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ListView,
+  Linking,
+  TextInput
+} from 'react-native';
 
 
 
+exports.loginScript=function(){
 
-var loginScript=function(){
-  fetch('https://checkinadvance.com/tokenn', {
+    var usr= this.state.username;
+    var pass=this.state.password;
+    var params = {
+    username: usr,
+    password: pass,
+    grant_type: 'password'
+    };
+
+    var data = "";
+    var responseStatus=0;
+    for (var k in params) {
+        data += k + "=" + params[k] + "&"
+    }
+
+         fetch('https://checkinadvance.com/tokenn', {
                               method: 'POST',
+                              timeout: 100000,
                               headers: {
-                               'Accept': 'application/json',
-                               'Content-Type': 'application/json'
+                               'Content-Type': 'application/x-www-form-urlencoded'
                               },
-                              body: JSON.stringify({
-                                username: this.state.username,
-                                password: this.state.password
-                              })
+                              body: data
                              })
-                             then(function(res) {
-      return res.json();
-     })
-    .then(function(resJson) {
-      return resJson;
-     })
+                             .then((response) => {
+                                                   //console.log("response :");
+                                                   //console.log(response);
+                                                  // console.log(response.status);
+                                                   //console.log(response.status != 200);
+                                                   responseStatus = response.status
+                                                  // console.log("State in loginscript");
+                                                  // console.log(this.state);
+                                                   return response.json()
+                                                  })
+                             .then((responseData) => {
+                                                   console.log("responseData :");
+                                                   console.log(responseData);
+
+                                                   console.log("PLS PRINT:");
+                                                   console.log(responseStatus);
+                                                   if(responseStatus == 200){ //proceed to next page
+                                                     this.navigatorPush();
+                                                   }
+                                                   else if(responseStatus != 200){  //re render with error message
+                                                     this.setState({
+
+                                                       errorMessage:"Invalid login",
+                                                     });
+                                                   }
+                                                   return responseData;
+                                                  })
+                                                  .catch((error) => {
+                                                  console.warn(error);
+
+                                                }).done();
 
 }

@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import SecureView from './SecureView.js'
-
+var HotelAdminService = require('./services.js')
 
 
 
@@ -32,74 +32,12 @@ class LoginView extends Component {
         };
 
        this.onSubmitPressed = this.onSubmitPressed.bind(this);
-       this.loginScript =this.loginScript.bind(this);
+       this.loginScript =HotelAdminService.loginScript.bind(this);
        this.navigatorPush=this.navigatorPush.bind(this);
       //console.log(this.onSubmitPressed())
     }
 
-    loginScript(){
-      var usr= this.state.username;
-      var pass=this.state.password;
-      var params = {
-      username: usr,
-      password: pass,
-      grant_type: 'password'
-      };
 
-      var data = "";
-      var responseStatus=0;
-      for (var k in params) {
-          data += k + "=" + params[k] + "&"
-      }
-
-           fetch('https://checkinadvance.com/tokenn', {
-                                method: 'POST',
-                                timeout: 100000,
-                                headers: {
-                                 'Content-Type': 'application/x-www-form-urlencoded'
-                                },
-                                body: data
-                               })
-                               .then((response) => {
-                                                     //console.log("response :");
-                                                     //console.log(response);
-                                                    // console.log(response.status);
-                                                     //console.log(response.status != 200);
-                                                     responseStatus = response.status
-
-
-
-
-                                                    // console.log("State in loginscript");
-                                                    // console.log(this.state);
-                                                     return response.json()
-                                                    })
-                               .then((responseData) => {
-                                                     console.log("responseData :");
-                                                     console.log(responseData);
-
-                                                     console.log("PLS PRINT:");
-                                                     console.log(responseStatus);
-                                                     if(responseStatus == 200){ //proceed to next page
-                                                       this.navigatorPush();
-                                                     }
-                                                     else if(responseStatus != 200){  //re render with error message
-                                                       this.setState({
-
-                                                         errorMessage:"Invalid login",
-                                                       });
-                                                     }
-                                                     return responseData;
-                                                    })
-                                                    .catch((error) => {
-                                                    console.warn(error);
-
-                                                  })
-
-
-                                .done();
-
-  }
 
   render() {
         return (
@@ -119,7 +57,7 @@ class LoginView extends Component {
                         onChange={(event) => this.setState({password: event.nativeEvent.text})}
                         style={styles.formInput}
                         value={this.state.password} />
-                    <TouchableHighlight onPress={this.loginScript.bind(this)} style={styles.button}>
+                    <TouchableHighlight onPress={HotelAdminService.loginScript.bind(this)} style={styles.button}>
                         <Text style={styles.buttonText}>Submit</Text>
                     </TouchableHighlight>
                     <Text>{this.state.errorMessage}

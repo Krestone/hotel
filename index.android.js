@@ -15,13 +15,12 @@ import {
 
 import LoginView from './components/LoginView.js';
 import SecureView from './components/SecureView.js'
-
+import {Scene, Router} from 'react-native-router-flux';
 //var services = require("./services.js");
 class hotel extends Component {
 
   _renderScene(route, navigator) {
     //console.log(route.passProps)
-    console.log("Route: ");
     console.log(route);
     //rendered component name is passed through the route props. (see this.push.navigator)
     var Component = route.component;
