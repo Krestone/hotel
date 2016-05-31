@@ -68,7 +68,7 @@ exports.login=function(){
                                                      var token= responseData.access_token;
                                                      console.log("Token");
                                                      console.log(token);
-                                                     //LocalDb.storeToken(token);
+                                                     LocalDb.storeToken(token);
                                                      Actions.pageTwo();
                                                    }
                                                    else if(responseStatus != 200){  //re render with error message
@@ -83,5 +83,17 @@ exports.login=function(){
                                                   console.warn(error);
 
                                                 }).done();
+
+}
+
+
+
+exports.tester=function(){
+  LocalDb.getAccessToken();//sets token to state
+  var token1=this.state.token;
+  console.log("token1: ");
+  console.log(token1);
+
+
 
 }

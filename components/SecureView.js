@@ -12,8 +12,9 @@ import {
 } from 'react-native';
 
 //import ViewContainer from ".app/components/ViewContainer";
-//var LocalDb = require('./LocalDatabase.js');
-import SearchBar from './searchBar.android.js'
+import LocalDb from './LocalDatabase.js';
+import SearchBar from './searchBar.android.js';
+var HotelAdminService = require('./services.js');
 var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
 var MOCKED_MOVIES_DATA = [
   {title: 'Avengers Age Of Ultron', year: '2015', posters: {thumbnail: 'http://i1.wp.com/www.slashfilm.com/wp/wp-content/images/Avengers-Age-of-Ultron-Poster.jpg'}} ,
@@ -36,6 +37,8 @@ class SecureView extends Component {
        loaded: false,
      };
      this.renderMovie = this.renderMovie.bind(this);
+     this.tester= HotelAdminService.tester.bind(this);
+     LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
 
   }
 
@@ -91,7 +94,9 @@ class SecureView extends Component {
 
 
   render() {
-  //  console.log(LocalDb.getAccessToken());
+  //LocalDb.getAccessToken().then((value) => {console.log(value);})
+
+
     if (!this.state.loaded) {
       return this.renderLoadingView();
    }
@@ -128,7 +133,7 @@ class SecureView extends Component {
  renderMovie(movie) {
    return (
 
-     <TouchableOpacity onPress={()=>this.clickMovie(movie)}>
+     <TouchableOpacity onPress={HotelAdminService.tester.bind(this)}>
 
      <View style={styles.container}>
        <Image

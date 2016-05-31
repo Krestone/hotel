@@ -33,6 +33,7 @@ class LoginView extends Component {
 
        //binds 'this' keyword to LoginView.js(this file)
        this.login =HotelAdminService.login.bind(this);
+       
 
       //console.log(this.onSubmitPressed())
     }
