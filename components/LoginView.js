@@ -9,7 +9,8 @@ import {
   View,
   Navigator,
   TouchableHighlight,
-  TextInput
+  TextInput,
+  Image
 } from 'react-native';
 
 import SecureView from './SecureView.js'
@@ -28,12 +29,11 @@ class LoginView extends Component {
             password: "",
             errorMessage: "",
 
-
         };
 
-       this.onSubmitPressed = this.onSubmitPressed.bind(this);
-       this.loginScript =HotelAdminService.loginScript.bind(this);
-       this.navigatorPush=this.navigatorPush.bind(this);
+       //binds 'this' keyword to LoginView.js(this file)
+       this.login =HotelAdminService.login.bind(this);
+
       //console.log(this.onSubmitPressed())
     }
 
@@ -57,7 +57,7 @@ class LoginView extends Component {
                         onChange={(event) => this.setState({password: event.nativeEvent.text})}
                         style={styles.formInput}
                         value={this.state.password} />
-                    <TouchableHighlight onPress={HotelAdminService.loginScript.bind(this)} style={styles.button}>
+                    <TouchableHighlight onPress={HotelAdminService.login.bind(this)} style={styles.button}>
                         <Text style={styles.buttonText}>Submit</Text>
                     </TouchableHighlight>
                     <Text>{this.state.errorMessage}
@@ -67,26 +67,6 @@ class LoginView extends Component {
         );
     }
 
-    onSubmitPressed() {
-        this.loginScript(this.state.username, this.state.password);
-        console.log("Valid Trans in onSubmitpressed: ")
-        console.log(this.state);
-      //  if(this.state.validTransition ===1){
-      //    this.navigatorPush();
-    //    }
-
-        }
-
-
-
-    navigatorPush(){
-
-      this.props.navigator.push({
-          title: "Secure Page",
-          component: SecureView,
-          passProps: {username: this.state.username, password: this.state.password},
-      });
-    }
 
 }
 

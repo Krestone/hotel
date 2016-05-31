@@ -9,16 +9,11 @@ import {
   StyleSheet,
   Text,
   View,
-  Navigator,
-
-} from 'react-native';
+  } from 'react-native';
 
 import LoginView from './components/LoginView.js';
 import SecureView from './components/SecureView.js'
 import {Scene, Router} from 'react-native-router-flux';
-
-
-
 
 
 class hotel extends React.Component {
@@ -29,8 +24,7 @@ class hotel extends React.Component {
          <Scene key="pageOne" component={LoginView} initial={true} hideNavBar={true} />
          <Scene key="pageTwo" component={SecureView} title="PageTwo" hideNavBar={true} />
        </Scene>
-
-     </Router>
+    </Router>
    );
   }
 }

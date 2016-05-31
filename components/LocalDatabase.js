@@ -1,26 +1,11 @@
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  Image,
-  TouchableOpacity,
-  ListView,
-  Linking,
-  TextInput,
-  AsyncStorage
-} from 'react-native';
+  } from 'react-native';
 
+class LocalDb extends Component{}
 
-
-
-exports.getAccessToken=function(){
-
-};
-
-
-exports.storeToken=function(token){
-
-};
+module.exports = LocalDb;

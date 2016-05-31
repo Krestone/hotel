@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 //import ViewContainer from ".app/components/ViewContainer";
-
+//var LocalDb = require('./LocalDatabase.js');
 import SearchBar from './searchBar.android.js'
 var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
 var MOCKED_MOVIES_DATA = [
@@ -91,7 +91,7 @@ class SecureView extends Component {
 
 
   render() {
-
+  //  console.log(LocalDb.getAccessToken());
     if (!this.state.loaded) {
       return this.renderLoadingView();
    }

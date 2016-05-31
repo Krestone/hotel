@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
-var LocalDb = require('./LocalDatabase.js');
+import LocalDb from './LocalDatabase.js'
 
 
 var config = {
@@ -25,7 +25,7 @@ var config = {
   };
 
 
-exports.loginScript=function(){
+exports.login=function(){
 
     var usr= this.state.username;
     var pass=this.state.password;
@@ -58,7 +58,7 @@ exports.loginScript=function(){
 
                                                    return response.json()
                                                   })
-                             .then((responseData) => {
+                             .then((responseData) => {//responsedATA = RESPONSE.json()
                                                    console.log("responseData :");
                                                    console.log(responseData);
 
@@ -68,7 +68,7 @@ exports.loginScript=function(){
                                                      var token= responseData.access_token;
                                                      console.log("Token");
                                                      console.log(token);
-                                                     LocalDb.storeToken(token);
+                                                     //LocalDb.storeToken(token);
                                                      Actions.pageTwo();
                                                    }
                                                    else if(responseStatus != 200){  //re render with error message
