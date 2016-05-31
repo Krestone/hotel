@@ -19,6 +19,7 @@ import {
            if(value) {
              this.setState({ //Dont forget to bind 'this' to LocalDb.getAccessToken in react constructor!! ORNEK :this.serviceMethod= HotelAdminService.serviceMethod.(this); AND LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
                token: value,
+               tokenLoaded:true,
              });
 
         }

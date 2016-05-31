@@ -33,8 +33,10 @@ class SecureView extends Component {
     this.state = {
        dataSource: new ListView.DataSource({
          rowHasChanged: (row1, row2) => row1 !== row2,
+
        }),
-       loaded: false,
+       dataLoaded: false,
+       tokenLoaded:false,
      };
      this.renderMovie = this.renderMovie.bind(this);
      this.tester= HotelAdminService.tester.bind(this);
@@ -44,6 +46,7 @@ class SecureView extends Component {
 
  //runs as soon as loaded
   componentDidMount() {
+    LocalDb.getAccessToken();
     this.fetchData();
   }
 
@@ -54,7 +57,7 @@ class SecureView extends Component {
 
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
-          loaded: true,
+          dataLoaded:true,
         });
       })
       .done();
@@ -97,7 +100,7 @@ class SecureView extends Component {
   //LocalDb.getAccessToken().then((value) => {console.log(value);})
 
 
-    if (!this.state.loaded) {
+    if (!(this.state.dataLoaded && this.state.tokenLoaded) ) {
       return this.renderLoadingView();
    }
    return (
