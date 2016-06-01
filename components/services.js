@@ -18,13 +18,16 @@ import LocalDb from './LocalDatabase.js'
 
 var config = {
 		//baseUrl: "https://checkinadvance.com/",
-		baseUrl: "http://10.1.2.95/CheckinAdvances/",
+		baseUrl: "http://checkinadvance.com/",
 		remoteDataUrl: "/",
 		cache: false,
 		timeout: 100000,
   };
 
-
+async function TokenGet(){
+     var token = await AsyncStorage.getItem('access_token');
+     return token;
+  }
 exports.login=function(){
 
     var usr= this.state.username;
@@ -89,11 +92,76 @@ exports.login=function(){
 
 
 exports.tester=function(){
-  LocalDb.getAccessToken();//sets token to state
-  var token1=this.state.token;
-  console.log("token1: ");
-  console.log(token1);
+  let REQUEST_URL= config.baseUrl + 'api/HotelAdmin/GetKey';
+
+  console.log("Naber");
+  var accessToken=TokenGet();
+  accessToken.then((value) => {
+
+    fetch(REQUEST_URL, {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + value,
+     }
+   }).then((response) => {return response.json()}  ).then((responseData) => {return(responseData)}).done();
+
+
+
+  });
 
 
 
 }
+
+exports.GetKey=function(){
+ var accessToken=TokenGet();
+ console.log('Token from TokenGet');
+ console.log(accessToken)
+
+
+//  LocalDb.getAccessToken();//sets token to state
+//  var accessToken=this.state.token;
+/*  REQUEST_URL='http://checkinadvance.com/api/HotelAdmin/GetKey';
+  fetch(REQUEST_URL, {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer ' + accessToken,
+  }}).then((response) =>
+   {
+     this.setState({ //Dont forget to bind 'this' to LocalDb.getAccessToken in react constructor!! ORNEK :this.serviceMethod= HotelAdminService.serviceMethod.(this); AND LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
+       //token: value,
+       dataLoaded:true,
+     });
+
+   }).done();*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+}}).then((response) =>
+
+ return response.json())
+.then((responseData) => {
+  console.log(responseData);
+  this.setState({
+  //  dataSource: this.state.dataSource.cloneWithRows(responseData),
+    dataLoaded:true,
+  });
+})
+.done();
+}*/

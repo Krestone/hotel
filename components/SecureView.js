@@ -100,7 +100,7 @@ class SecureView extends Component {
   //LocalDb.getAccessToken().then((value) => {console.log(value);})
 
 
-    if (!(this.state.dataLoaded && this.state.tokenLoaded) ) {
+    if (!(this.state.dataLoaded) ) {
       return this.renderLoadingView();
    }
    return (
