@@ -71,8 +71,8 @@ exports.login=function(){
                                                      var token= responseData.access_token;
                                                      console.log("Token");
                                                      console.log(token);
-                                                     LocalDb.storeToken(token);
-                                                     Actions.pageTwo();
+                                                     AsyncStorage.setItem('access_token', token).then((value)=> { Actions.pageTwo()}).done();
+
                                                    }
                                                    else if(responseStatus != 200){  //re render with error message
                                                      this.setState({
@@ -95,22 +95,25 @@ exports.tester=function(){
   let REQUEST_URL= config.baseUrl + 'api/HotelAdmin/GetKey';
 
   console.log("Naber");
-  var accessToken=TokenGet();
-  accessToken.then((value) => {
+  //var accessToken=TokenGet();
+  AsyncStorage.getItem('access_token').then((value) => {
 
     fetch(REQUEST_URL, {
     method: 'GET',
     headers: {
       'Authorization': 'Bearer ' + value,
      }
-   }).then((response) => {return response.json()}  ).then((responseData) => {return(responseData)}).done();
+   }).then((response) => response.json() ).then((responseData) => {
+     console.log(responseData);
 
+     this.setState({
+        key: responseData,
+        keyLoaded: true,
+        dataSource: this.state.dataSource.cloneWithRows(responseData),
+      });
 
-
+    })
   });
-
-
-
 }
 
 exports.GetKey=function(){

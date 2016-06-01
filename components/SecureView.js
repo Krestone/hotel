@@ -36,19 +36,25 @@ class SecureView extends Component {
 
        }),
        dataLoaded: false,
-       tokenLoaded:false,
+       keyLoaded:false,
      };
      this.renderMovie = this.renderMovie.bind(this);
      this.tester= HotelAdminService.tester.bind(this);
-     LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
+     //LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
+    // HotelAdminService.tester.bind(this);
 
   }
 
  //runs as soon as loaded
   componentDidMount() {
-    LocalDb.getAccessToken();
-    this.fetchData();
+  // HotelAdminService.tester.bind(this);
+  this.fetchData();
+
+
+
+
   }
+
 
   fetchData() {
     fetch(REQUEST_URL)
@@ -94,24 +100,21 @@ class SecureView extends Component {
 
 
 
-
+    /*  <ListView dataSource={this.state.dataSource} renderRow={this.renderMovie} style={styles.listView}/>*/
 
   render() {
-  //LocalDb.getAccessToken().then((value) => {console.log(value);})
-
-
-    if (!(this.state.dataLoaded) ) {
+  console.log(this.state);
+    /*if (!(this.state.dataLoaded) ) {
       return this.renderLoadingView();
-   }
-   return (
+    }*/
+    return (
         <View style={styles.viewContainer} >
           <SearchBar onChangeText={(e) => this.clickMovie(e)}>  </SearchBar>
-          <ListView dataSource={this.state.dataSource} renderRow={this.renderMovie} style={styles.listView}/>
+            <ListView dataSource={this.state.dataSource} renderRow={this.renderMovie} style={styles.listView}/>
+
         </View>
-    );
-
-
- }
+  );
+}
 
  renderLoadingView() {
    return (
@@ -139,13 +142,9 @@ class SecureView extends Component {
      <TouchableOpacity onPress={HotelAdminService.tester.bind(this)}>
 
      <View style={styles.container}>
-       <Image
-         source={{uri: movie.posters.thumbnail}}
-         style={styles.thumbnail}
-       />
+
        <View style={styles.rightContainer}>
-         <Text style={styles.title}>{movie.title}</Text>
-         <Text style={styles.year}>{movie.year}</Text>
+         <Text style={styles.title}>Hel</Text>
          <Text style={styles.year}>Search!</Text>
        </View>
      </View>
