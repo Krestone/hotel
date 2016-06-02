@@ -11,8 +11,13 @@ import {
   View,
   } from 'react-native';
 
+//Scenes
 import LoginView from './components/LoginView.js';
 import SecureView from './components/SecureView.js'
+import Dashboard from './components/Dashboard.js';
+
+
+
 import {Scene, Router} from 'react-native-router-flux';
 
 
@@ -23,6 +28,7 @@ class hotel extends React.Component {
        <Scene key="root">
          <Scene key="pageOne" component={LoginView} initial={true} hideNavBar={true} />
          <Scene key="pageTwo" component={SecureView} title="PageTwo" hideNavBar={true} />
+         <Scene key="dashboard" component={Dashboard} title="Dashboard" hideNavBar={false} />
        </Scene>
     </Router>
    );

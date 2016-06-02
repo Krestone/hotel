@@ -15,6 +15,11 @@ import {
 import LocalDb from './LocalDatabase.js';
 import SearchBar from './searchBar.android.js';
 var HotelAdminService = require('./services.js');
+import Dashboard from './Dashboard.js';
+
+import { Actions } from 'react-native-router-flux';
+
+
 var REQUEST_URL = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
 var MOCKED_MOVIES_DATA = [
   {title: 'Avengers Age Of Ultron', year: '2015', posters: {thumbnail: 'http://i1.wp.com/www.slashfilm.com/wp/wp-content/images/Avengers-Age-of-Ultron-Poster.jpg'}} ,
@@ -30,87 +35,33 @@ class SecureView extends Component {
 
   constructor(props) {
     super(props);
+     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    console.log("Prop in constructor")
+    console.log(this.props.hotels);
     this.state = {
-       dataSource: new ListView.DataSource({
-         rowHasChanged: (row1, row2) => row1 !== row2,
-
-       }),
-       dataLoaded: false,
-       keyLoaded:false,
-     };
-     this.renderMovie = this.renderMovie.bind(this);
-     this.tester= HotelAdminService.tester.bind(this);
+       dataSource: ds.cloneWithRows(this.props.hotels),
+};
+     this.renderHotel = this.renderHotel.bind(this);
+  //   this.tester= HotelAdminService.tester.bind(this);
      //LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
     // HotelAdminService.tester.bind(this);
 
   }
 
- //runs as soon as loaded
-  componentDidMount() {
-  // HotelAdminService.tester.bind(this);
-  this.fetchData();
 
 
-
-
-  }
-
-
-  fetchData() {
-    fetch(REQUEST_URL)
-      .then((response) => response.json())
-      .then((responseData) => {
-
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
-          dataLoaded:true,
-        });
-      })
-      .done();
-  }
-
-
-  clickMovie(movie){
-    var ur = movie.links.self
-    alert(ur);
-    Linking.openURL(ur);
-
-  }
-
-
-  searchMovie(movieName){
-    //gets movies that contains
-    var movieArray = this.state.dataSource._dataBlob.s1
-    var searchedArray=[];
-
-    for(var i=0; i<movieArray.length; i++){
-      if(movieArray[i].title.includes(movieName)){
-        searchedArray.push(movieArray[i]);
-      }
-
-    }
-
-    console.log(searchedArray);
-
-
-
-
-
-  }
-
-
-
-    /*  <ListView dataSource={this.state.dataSource} renderRow={this.renderMovie} style={styles.listView}/>*/
 
   render() {
-  console.log(this.state);
+
+  console.log("Props");
+  console.log(this.props.hotels);
     /*if (!(this.state.dataLoaded) ) {
       return this.renderLoadingView();
     }*/
     return (
         <View style={styles.viewContainer} >
-          <SearchBar onChangeText={(e) => this.clickMovie(e)}>  </SearchBar>
-            <ListView dataSource={this.state.dataSource} renderRow={this.renderMovie} style={styles.listView}/>
+          <SearchBar onChangeText={(e) => this.clickHotel(e)}>  </SearchBar>
+            <ListView dataSource={this.state.dataSource} renderRow={this.renderHotel} style={styles.listView}/>
 
         </View>
   );
@@ -136,15 +87,19 @@ class SecureView extends Component {
    );
  }
 
- renderMovie(movie) {
+ onHotelClick(hotel){
+   Actions.dashboard({hotel: hotel,});
+ }
+
+ renderHotel(hotel) {
    return (
 
-     <TouchableOpacity onPress={HotelAdminService.tester.bind(this)}>
+     <TouchableOpacity onPress={()=>this.onHotelClick(hotel)}>
 
      <View style={styles.container}>
 
        <View style={styles.rightContainer}>
-         <Text style={styles.title}>Hel</Text>
+         <Text style={styles.title}>{hotel}</Text>
          <Text style={styles.year}>Search!</Text>
        </View>
      </View>

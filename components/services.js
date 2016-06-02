@@ -53,10 +53,7 @@ exports.login=function(){
                               body: data
                              })
                              .then((response) => {
-                                                   //console.log("response :");
-                                                   //console.log(response);
-                                                  // console.log(response.status);
-                                                   //console.log(response.status != 200);
+
                                                    responseStatus = response.status
 
                                                    return response.json()
@@ -71,7 +68,32 @@ exports.login=function(){
                                                      var token= responseData.access_token;
                                                      console.log("Token");
                                                      console.log(token);
-                                                     AsyncStorage.setItem('access_token', token).then((value)=> { Actions.pageTwo()}).done();
+                                                     AsyncStorage.setItem('access_token', token).then((value)=> {
+
+                                                       AsyncStorage.getItem('access_token').then((value) => {
+
+                                                         fetch('http://checkinadvance.com/api/HotelAdmin/GetKey', {
+                                                         method: 'GET',
+                                                         headers: {
+                                                           'Authorization': 'Bearer ' + value,
+                                                          }
+                                                        })
+                                                        .then((response) => response.json())
+                                                        .then((responseData) => {
+                                                             if(responseData.length>1){
+                                                               Actions.pageTwo( {hotels: responseData,});
+                                                             }
+                                                             else{
+                                                               Actions.dashboard( {hotel: responseData[0],
+                                                                                    hideNavBar:true,
+
+                                                                                });
+
+                                                             }
+
+                                                         }).done();
+                                                       }).done();
+                                                     }).done();
 
                                                    }
                                                    else if(responseStatus != 200){  //re render with error message
@@ -92,18 +114,24 @@ exports.login=function(){
 
 
 exports.tester=function(){
-  let REQUEST_URL= config.baseUrl + 'api/HotelAdmin/GetKey';
+//  var REQUEST_URL= 'http://checkinadvance.com/api/HotelAdmin/GetKey';
 
-  console.log("Naber");
+/*  console.log("Naber");
   //var accessToken=TokenGet();
+  let test=TokenGet();
+  console.log(test);
+*/
+
   AsyncStorage.getItem('access_token').then((value) => {
 
-    fetch(REQUEST_URL, {
+    fetch('http://checkinadvance.com/api/HotelAdmin/GetKey', {
     method: 'GET',
     headers: {
       'Authorization': 'Bearer ' + value,
      }
-   }).then((response) => response.json() ).then((responseData) => {
+   })
+   .then((response) => response.json())
+   .then((responseData) => {
      console.log(responseData);
 
      this.setState({
@@ -111,9 +139,8 @@ exports.tester=function(){
         keyLoaded: true,
         dataSource: this.state.dataSource.cloneWithRows(responseData),
       });
-
-    })
-  });
+    }).done();
+  }).done();
 }
 
 exports.GetKey=function(){
@@ -138,33 +165,3 @@ exports.GetKey=function(){
 
    }).done();*/
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-}}).then((response) =>
-
- return response.json())
-.then((responseData) => {
-  console.log(responseData);
-  this.setState({
-  //  dataSource: this.state.dataSource.cloneWithRows(responseData),
-    dataLoaded:true,
-  });
-})
-.done();
-}*/
