@@ -30,8 +30,8 @@ async function TokenGet(){
   }
 exports.login=function(){
 
-    var usr= this.state.username;
-    var pass=this.state.password;
+    var usr= 'yunus@nevotek.com';
+    var pass='123qweASD';
     var params = {
     username: usr,
     password: pass,
@@ -110,6 +110,27 @@ exports.login=function(){
                                                 }).done();
 
 }
+exports.ReservationList=function(key){
+   let URL=config.baseUrl + 'api/HotelAdmin/GetReservations?key=' + key
+   AsyncStorage.getItem('access_token').then((value) =>{
+     fetch(URL, {
+     method: 'GET',
+     headers: {
+       'Authorization': 'Bearer ' + value
+     }
+      })
+      .then((response) => response.json())
+      .then((responseData) => {
+
+        console.log(responseData);
+        Actions.reservationlist( {reservations: responseData,});
+
+
+
+      }).done();
+   })
+ }
+
 
 
 
