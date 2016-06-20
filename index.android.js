@@ -19,6 +19,9 @@ import ReservationList from './components/ReservationList.js';
 
 import {Scene, Router} from 'react-native-router-flux';
 
+import SideDrawer from './components/SideDrawer.js';
+import SideDrawerContent from './components/SideDrawerContent.js'
+
 
 class hotel extends React.Component {
   render() {
