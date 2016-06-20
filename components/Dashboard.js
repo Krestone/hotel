@@ -7,10 +7,12 @@ import {
   Navigator,
   TouchableHighlight,
   TextInput,
-  Image
+  Image,
+  ToolbarAndroid,
 } from 'react-native';
 
 var HotelAdminService = require('./services.js');
+
 
 class Dashboard extends Component{
   constructor(props){
@@ -19,7 +21,7 @@ class Dashboard extends Component{
     this.ReservationList=HotelAdminService.ReservationList.bind(this);
 
   }
-
+  
   render(){
     return(
       <View style={styles.container}>
@@ -69,5 +71,22 @@ const styles ={
       color: "#ffffff",
       alignSelf: "center"
   },
+	navBar: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'top',
+		justifyContent: 'center',
+		backgroundColor: 'green',
+	},
+	navTitle: {
+		color: 'white',
+	},
+	leftButtonContainer: {
+		paddingLeft: 15,
+		paddingRight: 20,
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
 }
 module.exports = Dashboard;

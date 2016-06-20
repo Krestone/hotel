@@ -7,9 +7,10 @@ import {
   Image,
   TouchableOpacity,
   ListView,
-  Linking,
+  RefreshControl,
   TextInput,
   TouchableHighlight,
+  AsyncStorage,
 } from 'react-native';
 
 var HotelAdminService = require('./services.js');
@@ -26,15 +27,51 @@ class ReservationList extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     console.log("Prop in ReservationList constructor")
     console.log(this.props.reservations);
+
     this.state = {
        dataSource: ds.cloneWithRows(this.props.reservations),
+       refreshing: false,
     };
      this.renderHotel = this.renderHotel.bind(this);
+    // this.refreshData=this.refreshData.bind(this);
   //   this.tester= HotelAdminService.tester.bind(this);
      //LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
     // HotelAdminService.tester.bind(this);
 
   }
+
+
+
+
+
+
+  _onRefresh() {
+   var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+   this.setState({refreshing: true});
+
+    let URL= 'http://checkinadvance.com/'+ 'api/HotelAdmin/GetReservations?key=' + this.props.hotel;
+
+    AsyncStorage.getItem('access_token').then((value) =>{
+      fetch(URL, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + value
+      }
+       })
+       .then((response) => response.json())
+       .then((responseData) => {
+
+         console.log(responseData);
+         this.setState({
+           dataSource:ds.cloneWithRows(responseData),
+         });
+      }).then(() => this.setState({refreshing: false})).done();
+    })
+
+
+
+ }
 
 
 
@@ -49,7 +86,10 @@ class ReservationList extends Component {
     return (
         <View style={styles.viewContainer} >
           <SearchBar onChangeText={(e) => this.clickHotel(e)}>  </SearchBar>
-            <ListView dataSource={this.state.dataSource} renderRow={this.renderHotel} style={styles.listView}/>
+            <ListView dataSource={this.state.dataSource} renderRow={this.renderHotel} style={styles.listView} refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}/>}/>
 
         </View>
   );

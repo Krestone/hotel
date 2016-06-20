@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Navigator,
   } from 'react-native';
 
 //Scenes
@@ -18,19 +19,45 @@ import Dashboard from './components/Dashboard.js';
 import ReservationList from './components/ReservationList.js';
 
 import {Scene, Router} from 'react-native-router-flux';
-
+import Drawer from 'react-native-drawer'
 import SideDrawer from './components/SideDrawer.js';
 import SideDrawerContent from './components/SideDrawerContent.js'
-
+import NavBar from './components/NavBar.js'
 
 class hotel extends React.Component {
+
+  renderMenuButton = () => {
+		return (
+			<TouchableOpacity
+				style={styles.leftButtonContainer}
+
+			>
+				<Image
+					source={require('./components/ic_menu_white_24dp.png')}
+					style={{height: 24, width: 24}}/>
+			</TouchableOpacity>
+		)
+	};
+
+	renderBackButton = () => {
+		return (
+			<TouchableOpacity
+				style={styles.leftButtonContainer}
+				onPress={Actions.pop}
+			>
+				<Image
+					source={require('./components/ic_arrow_back_white_24dp.png')}
+					style={{height: 24, width: 24}}/>
+			</TouchableOpacity>
+		)
+	};
   render() {
     return(
      <Router>
        <Scene key="root">
          <Scene key="pageOne" component={LoginView} initial={true} hideNavBar={true} />
          <Scene key="pageTwo" component={SecureView} title="PageTwo" hideNavBar={true} />
-         <Scene key="dashboard" component={Dashboard} title="Dashboard" hideNavBar={false} />
+         <Scene key="dashboard" component={Dashboard} title="Dashboard" hideNavBar={false} navBar= {NavBar}/>
          <Scene key="reservationlist" component={ReservationList} title="ReservationList" hideNavBar={true} />
        </Scene>
     </Router>
@@ -55,6 +82,26 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  navBar: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'green',
+	},
+	navTitle: {
+		color: 'white',
+	},
+	routerScene: {
+		paddingTop: Navigator.NavigationBar.Styles.General.NavBarHeight, // some navbar padding to avoid content overlap
+	},
+	leftButtonContainer: {
+		paddingLeft: 15,
+		paddingRight: 20,
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
 });
 
 AppRegistry.registerComponent('hotel', () => hotel);

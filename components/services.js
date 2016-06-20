@@ -85,7 +85,7 @@ exports.login=function(){
                                                              }
                                                              else{
                                                                Actions.dashboard( {hotel: responseData[0],
-                                                                                    hideNavBar:true,
+                                                                                    //hideNavBar:true,
 
                                                                                 });
 
@@ -123,7 +123,7 @@ exports.ReservationList=function(key){
       .then((responseData) => {
 
         console.log(responseData);
-        Actions.reservationlist( {reservations: responseData,});
+        Actions.reservationlist( {reservations: responseData, hotel: key});
 
 
 
