@@ -26,38 +26,14 @@ import NavBar from './components/NavBar.js'
 
 class hotel extends React.Component {
 
-  renderMenuButton = () => {
-		return (
-			<TouchableOpacity
-				style={styles.leftButtonContainer}
-
-			>
-				<Image
-					source={require('./components/ic_menu_white_24dp.png')}
-					style={{height: 24, width: 24}}/>
-			</TouchableOpacity>
-		)
-	};
-
-	renderBackButton = () => {
-		return (
-			<TouchableOpacity
-				style={styles.leftButtonContainer}
-				onPress={Actions.pop}
-			>
-				<Image
-					source={require('./components/ic_arrow_back_white_24dp.png')}
-					style={{height: 24, width: 24}}/>
-			</TouchableOpacity>
-		)
-	};
+  
   render() {
     return(
      <Router>
        <Scene key="root">
          <Scene key="pageOne" component={LoginView} initial={true} hideNavBar={true} />
          <Scene key="pageTwo" component={SecureView} title="PageTwo" hideNavBar={true} />
-         <Scene key="dashboard" component={Dashboard} title="Dashboard" hideNavBar={false} navBar= {NavBar}/>
+         <Scene key="dashboard" component={Dashboard} title="Dashboard" hideNavBar={false}/>
          <Scene key="reservationlist" component={ReservationList} title="ReservationList" hideNavBar={true} />
        </Scene>
     </Router>

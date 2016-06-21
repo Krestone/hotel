@@ -110,7 +110,8 @@ exports.login=function(){
                                                 }).done();
 
 }
-exports.ReservationList=function(key){
+exports.getReservationList=function(){
+   let key=this.props.hotel
    let URL=config.baseUrl + 'api/HotelAdmin/GetReservations?key=' + key
    AsyncStorage.getItem('access_token').then((value) =>{
      fetch(URL, {
@@ -123,7 +124,12 @@ exports.ReservationList=function(key){
       .then((responseData) => {
 
         console.log(responseData);
-        Actions.reservationlist( {reservations: responseData, hotel: key});
+        this.setState({
+
+          dataLoaded:true,
+          dataSource: this.state.dataSource.cloneWithRows(responseData),
+
+        });
 
 
 

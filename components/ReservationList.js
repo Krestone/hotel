@@ -24,20 +24,40 @@ class ReservationList extends Component {
 
   constructor(props) {
     super(props);
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    console.log("Prop in ReservationList constructor")
-    console.log(this.props.reservations);
+
 
     this.state = {
-       dataSource: ds.cloneWithRows(this.props.reservations),
+       dataLoaded:false,
+       dataSource: new ListView.DataSource({
+         rowHasChanged: (row1, row2) => row1 !== row2,
+       }),
        refreshing: false,
     };
      this.renderHotel = this.renderHotel.bind(this);
+     this.getReservationList=HotelAdminService.getReservationList.bind(this);
     // this.refreshData=this.refreshData.bind(this);
   //   this.tester= HotelAdminService.tester.bind(this);
      //LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
     // HotelAdminService.tester.bind(this);
 
+  }
+
+  componentDidMount() {
+  HotelAdminService.getReservationList.bind(this)();
+  console.log("Props in componenetDidMount");
+  console.log(this.props);
+  }
+
+
+
+  renderLoadingView() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>
+          Gelsin Filmler...
+        </Text>
+      </View>
+    );
   }
 
 
@@ -77,13 +97,13 @@ class ReservationList extends Component {
 
 
   render() {
+    console.log("Props in ReservationList render");
+    console.log(this.props);
 
-  console.log("Props in ReservationList render");
-  console.log(this.props.reservations);
-    /*if (!(this.state.dataLoaded) ) {
+    if (!this.state.dataLoaded) {
       return this.renderLoadingView();
-    }*/
-    return (
+   }
+  return (
         <View style={styles.viewContainer} >
           <SearchBar onChangeText={(e) => this.clickHotel(e)}>  </SearchBar>
             <ListView dataSource={this.state.dataSource} renderRow={this.renderHotel} style={styles.listView} refreshControl={
@@ -95,25 +115,7 @@ class ReservationList extends Component {
   );
 }
 
- renderLoadingView() {
-   return (
-     <View style={styles.container}>
-       <Text style={styles.title}>
-         Gelsin Filmler...
-       </Text>
-     </View>
-   );
- }
 
- renderLoadingSearch() {
-   return (
-     <View style={styles.container}>
-       <Text>
-         Searching movie...
-       </Text>
-     </View>
-   );
- }
 
  onHotelClick(hotel){
   let notice={
