@@ -11,12 +11,16 @@ import {
   TextInput,
   TouchableHighlight,
   AsyncStorage,
+  nativeEvent,
+  event
 } from 'react-native';
 
 var HotelAdminService = require('./services.js');
 import LocalDb from './LocalDatabase.js';
 import SearchBar from './searchBar.android.js';
 import Dashboard from './Dashboard.js';
+import { filter, indexOf, invert, findKey,search,} from 'lodash-node';
+
 
 import { Actions } from 'react-native-router-flux';
 
@@ -32,9 +36,12 @@ class ReservationList extends Component {
          rowHasChanged: (row1, row2) => row1 !== row2,
        }),
        refreshing: false,
+
     };
      this.renderHotel = this.renderHotel.bind(this);
      this.getReservationList=HotelAdminService.getReservationList.bind(this);
+     this.setSearchText=this.setSearchText.bind(this)
+    //  this.SearchBar=this.SearchBar.bind(this);
     // this.refreshData=this.refreshData.bind(this);
   //   this.tester= HotelAdminService.tester.bind(this);
      //LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
@@ -66,7 +73,7 @@ class ReservationList extends Component {
 
 
   _onRefresh() {
-   var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
 
    this.setState({refreshing: true});
 
@@ -84,7 +91,7 @@ class ReservationList extends Component {
 
          console.log(responseData);
          this.setState({
-           dataSource:ds.cloneWithRows(responseData),
+           dataSource:this.state.dataSource.cloneWithRows(responseData),
          });
       }).then(() => this.setState({refreshing: false})).done();
     })
@@ -92,6 +99,7 @@ class ReservationList extends Component {
 
 
  }
+
 
 
 
@@ -105,7 +113,10 @@ class ReservationList extends Component {
    }
   return (
         <View style={styles.viewContainer} >
-          <SearchBar onChangeText={(e) => this.clickHotel(e)}>  </SearchBar>
+        <TextInput
+        value={this.state.searchText}
+        onChange={this.setSearchText.bind(this)}
+        placeholder='Search' />
             <ListView dataSource={this.state.dataSource} renderRow={this.renderHotel} style={styles.listView} refreshControl={
           <RefreshControl
             refreshing={this.state.refreshing}
@@ -114,6 +125,8 @@ class ReservationList extends Component {
         </View>
   );
 }
+
+
 
 
 
@@ -144,6 +157,50 @@ class ReservationList extends Component {
 
    );
  }
+
+ setSearchText(event) {
+ let searchText = event.nativeEvent.text;
+ this.setState({searchText:searchText});
+
+let key=this.props.hotel
+let URL='http://checkinadvance.com/' + 'api/HotelAdmin/GetReservations?key=' + key
+AsyncStorage.getItem('access_token').then((value) =>{
+  fetch(URL, {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer ' + value
+  }
+   })
+   .then((response) => response.json())
+   .then((responseData) => {
+
+     console.log(responseData);
+     let filteredData = this.filterNotes(searchText, responseData);
+     console.log('filteredData');
+     console.log(filteredData);
+     this.setState({
+       dataSource: this.state.dataSource.cloneWithRows(filteredData),
+       rawData: responseData,
+     });
+     
+
+
+   }).done();
+})
+}
+
+filterNotes(searchText, notes) {
+  let text = searchText.toLowerCase();
+
+  return filter(notes, (n) => {
+     //console.log('inside filternotes')
+   // console.log(n.userName)
+    let note = n.userName.toLowerCase();
+    if(note.search(text) !== -1){return n};
+  });
+}
+
+
 }
 
 

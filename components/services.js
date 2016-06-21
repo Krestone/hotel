@@ -53,7 +53,9 @@ exports.login=function(){
                               body: data
                              })
                              .then((response) => {
-
+                                                  this.setState({
+                                                    errorMessage:'Logging In...'
+                                                  });
                                                    responseStatus = response.status
 
                                                    return response.json()
@@ -84,11 +86,7 @@ exports.login=function(){
                                                                Actions.pageTwo( {hotels: responseData,});
                                                              }
                                                              else{
-                                                               Actions.dashboard( {hotel: responseData[0],
-                                                                                    //hideNavBar:true,
-
-                                                                                });
-
+                                                               Actions.dashboard( {hotel: responseData[0],});
                                                              }
 
                                                          }).done();
@@ -125,7 +123,7 @@ exports.getReservationList=function(){
 
         console.log(responseData);
         this.setState({
-
+          rawData:responseData,
           dataLoaded:true,
           dataSource: this.state.dataSource.cloneWithRows(responseData),
 
