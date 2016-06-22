@@ -17,6 +17,7 @@ import LoginView from './components/LoginView.js';
 import SecureView from './components/SecureView.js'
 import Dashboard from './components/Dashboard.js';
 import ReservationList from './components/ReservationList.js';
+import GuestList from './components/GuestList.js';
 
 import {Scene, Router} from 'react-native-router-flux';
 import Drawer from 'react-native-drawer'
@@ -26,7 +27,7 @@ import NavBar from './components/NavBar.js'
 
 class hotel extends React.Component {
 
-  
+
   render() {
     return(
      <Router>
@@ -35,6 +36,7 @@ class hotel extends React.Component {
          <Scene key="pageTwo" component={SecureView} title="PageTwo" hideNavBar={true} />
          <Scene key="dashboard" component={Dashboard} title="Dashboard" hideNavBar={false}/>
          <Scene key="reservationlist" component={ReservationList} title="ReservationList" hideNavBar={true} />
+          <Scene key="guestlist" component={GuestList} title="GuestList" hideNavBar={true} />
        </Scene>
     </Router>
    );

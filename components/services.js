@@ -136,6 +136,34 @@ exports.getReservationList=function(){
  }
 
 
+ exports.getGuestList=function(){
+    let key=this.props.hotel
+    let URL=config.baseUrl + 'api/HotelAdmin/GetGuests?key=' + key
+    AsyncStorage.getItem('access_token').then((value) =>{
+      fetch(URL, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + value
+      }
+       })
+       .then((response) => response.json())
+       .then((responseData) => {
+
+         console.log(responseData);
+         this.setState({
+           rawData:responseData,
+           dataLoaded:true,
+           dataSource: this.state.dataSource.cloneWithRows(responseData),
+
+         });
+
+
+
+       }).done();
+    })
+  }
+
+
 
 
 exports.tester=function(){

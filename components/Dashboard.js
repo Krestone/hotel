@@ -34,7 +34,7 @@ class Dashboard extends Component{
         <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})} style={styles.button}>
             <Text style={styles.buttonText}>Reservations</Text>
         </TouchableHighlight>
-        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel: hotel})} style={styles.button}>
+        <TouchableHighlight onPress={()=>Actions.guestlist({hotel: hotel})} style={styles.button}>
             <Text style={styles.buttonText}>Guests</Text>
         </TouchableHighlight>
         <TouchableHighlight onPress={()=>Actions.reservationlist({hotel: hotel})} style={styles.button}>
