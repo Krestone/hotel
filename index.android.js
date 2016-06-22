@@ -23,7 +23,6 @@ import {Scene, Router} from 'react-native-router-flux';
 import Drawer from 'react-native-drawer'
 import SideDrawer from './components/SideDrawer.js';
 import SideDrawerContent from './components/SideDrawerContent.js'
-import NavBar from './components/NavBar.js'
 
 class hotel extends React.Component {
 
