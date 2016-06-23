@@ -33,7 +33,7 @@ class LoginView extends Component {
 
        //binds 'this' keyword to LoginView.js(this file)
        this.login =HotelAdminService.login.bind(this);
-       
+
 
       //console.log(this.onSubmitPressed())
     }
@@ -79,7 +79,9 @@ var styles = StyleSheet.create({
         flex:1,
         padding: 30,
         marginTop: 65,
-        alignItems: "stretch"
+        alignItems: "stretch",
+        background_image:URL('./images/background.png'),
+
     },
     title: {
         fontSize: 18,
