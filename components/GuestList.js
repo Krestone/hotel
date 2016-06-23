@@ -131,12 +131,10 @@ class GuestList extends Component {
 
 
  onHotelClick(hotel){
+  let name= hotel.lastName;
   let notice={
-    Name: hotel.userName,
-    Checkin: hotel.checkinDate,
-    Checkout: hotel.checkoutDate,
-    Roomtype: hotel.reservationType,
-  }
+    Name:name ,
+}
 
    alert(JSON.stringify(notice));
  }

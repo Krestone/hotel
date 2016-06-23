@@ -30,8 +30,8 @@ async function TokenGet(){
   }
 exports.login=function(){
 
-    var usr= 'yunus@nevotek.com';
-    var pass='123qweASD';
+    var usr= 'yasemincidem@gmail.com';
+    var pass='yasemin1991';
     var params = {
     username: usr,
     password: pass,
