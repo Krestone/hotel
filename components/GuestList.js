@@ -145,6 +145,11 @@ class GuestList extends Component {
      <TouchableOpacity onPress={()=>this.onHotelClick(hotel)}>
 
      <View style={styles.container}>
+     <Image
+       source={require('./images/icon.png')}
+       style={styles.thumbnail}
+     />
+
 
        <View style={styles.rightContainer}>
          <Text style={styles.title}>{hotel.firstName + " " + hotel.lastName}</Text>
@@ -242,7 +247,7 @@ const styles = StyleSheet.create({
    fontSize: 16
  },
  listView: {
-   paddingTop: 20,
+   paddingTop: 21,
    backgroundColor: '#F5FCFF',
  }
 

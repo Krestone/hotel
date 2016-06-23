@@ -147,6 +147,10 @@ class ReservationList extends Component {
      <TouchableOpacity onPress={()=>this.onHotelClick(hotel)}>
 
      <View style={styles.container}>
+     <Image
+       source= {require('./images/icon.png')}
+       style={styles.thumbnail}
+     />
 
        <View style={styles.rightContainer}>
          <Text style={styles.title}>{hotel.userName}</Text>
@@ -182,7 +186,7 @@ AsyncStorage.getItem('access_token').then((value) =>{
        dataSource: this.state.dataSource.cloneWithRows(filteredData),
        rawData: responseData,
      });
-     
+
 
 
    }).done();
