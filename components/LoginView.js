@@ -42,11 +42,11 @@ class LoginView extends Component {
 
   render() {
         return (
-            <View style={styles.container}>
+                <Image source={require('./images/background.png')} style={styles.backgroundImage} >
+
                 <Text style={styles.title}>
                     Sign In
                 </Text>
-                <View>
                     <TextInput
                         placeholder="Username"
                         onChange={(event) => this.setState({username: event.nativeEvent.text})}
@@ -63,8 +63,7 @@ class LoginView extends Component {
                     </TouchableHighlight>
                     <Text>{this.state.errorMessage}
                     </Text>
-                </View>
-            </View>
+                </Image>
         );
     }
 
@@ -75,12 +74,20 @@ class LoginView extends Component {
 
 
 var styles = StyleSheet.create({
+  Container: {
+      flex:1,
+
+      alignItems: "stretch",
+
+
+  },
+
+
     container: {
         flex:1,
-        padding: 30,
-        marginTop: 65,
+
         alignItems: "stretch",
-        background_image:URL('./images/background.png'),
+
 
     },
     title: {
@@ -116,6 +123,13 @@ var styles = StyleSheet.create({
         color: "#ffffff",
         alignSelf: "center"
     },
+    backgroundImage: {
+    flex: 1,
+    alignItems:'center',
+    justifyContent:'center',
+    width:null,
+    height:null,
+  }
 });
 
 module.exports = LoginView;
