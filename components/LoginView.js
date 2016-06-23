@@ -43,7 +43,7 @@ class LoginView extends Component {
   render() {
         return (
                 <Image source={require('./images/background.png')} style={styles.backgroundImage} >
-
+                <View style={styles.container}>
                 <Text style={styles.title}>
                     Sign In
                 </Text>
@@ -63,6 +63,7 @@ class LoginView extends Component {
                     </TouchableHighlight>
                     <Text>{this.state.errorMessage}
                     </Text>
+                    </View>
                 </Image>
         );
     }
@@ -74,22 +75,17 @@ class LoginView extends Component {
 
 
 var styles = StyleSheet.create({
-  Container: {
+
+
+  container: {
       flex:1,
-
-      alignItems: "stretch",
-
-
+      padding: 10,
+      marginTop: 65,
+      alignItems: "center"
   },
 
 
-    container: {
-        flex:1,
 
-        alignItems: "stretch",
-
-
-    },
     title: {
         fontSize: 18,
         marginBottom: 10,
