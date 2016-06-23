@@ -142,13 +142,21 @@ class ReservationList extends Component {
  }
 
  renderHotel(hotel) {
+   var icon;
+   if(hotel.salutation == "mr"){
+     icon= require('./images/icon.png');
+   }
+   else{
+      require('./images/mrs.png');
+
+   }
    return (
 
      <TouchableOpacity onPress={()=>this.onHotelClick(hotel)}>
 
      <View style={styles.container}>
      <Image
-       source= {require('./images/icon.png')}
+       source= {icon}
        style={styles.thumbnail}
      />
 

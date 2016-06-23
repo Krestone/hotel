@@ -39,7 +39,7 @@ class LoginView extends Component {
       //console.log(this.onSubmitPressed())
     }
     componentDidMount() {
-      
+
     }
 
 

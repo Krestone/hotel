@@ -132,21 +132,40 @@ class GuestList extends Component {
 
  onHotelClick(hotel){
   let name= hotel.lastName;
+  let salutation=hotel.salutation;
   let notice={
     Name:name ,
+    Salutation:salutation,
 }
 
    alert(JSON.stringify(notice));
  }
 
  renderHotel(hotel) {
+   var icon;
+   if(hotel.salutation != null){if(hotel.salutation.toLowerCase() == "mr" ){
+     icon= require('./images/mr.png');
+   }
+   else if(hotel.salutation.toLowerCase() == ("ms"|| 'mrs')){
+       icon =require('./images/mrs.png');
+
+   }
+   else{
+        icon =require('./images/icon.png');
+   }}
+   else{
+     icon =require('./images/icon.png');
+
+   }
+
+
    return (
 
      <TouchableOpacity onPress={()=>this.onHotelClick(hotel)}>
 
      <View style={styles.container}>
      <Image
-       source={require('./images/icon.png')}
+       source={icon}
        style={styles.thumbnail}
      />
 
@@ -228,7 +247,7 @@ const styles = StyleSheet.create({
    },
 
   thumbnail: {
-    width: 53,
+    width: 60,
     height: 81,
   },
   rightContainer:{
