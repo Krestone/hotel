@@ -136,7 +136,7 @@ exports.getReservationList=function(){
  }
 
  exports.getStats=function(){
-   let rawData=[];
+
    let key=this.props.hotel
    let URL='http://checkinadvance.com/Statistics/GetGuests'
    let params={
@@ -166,12 +166,14 @@ exports.getReservationList=function(){
      })
      .then((response) => {
         console.log(response);
-        this.setState({dataLoaded:true});
         return response.json()
      })
      .then((responseData)=>{
-       rawData+=responseData;
-       console.log(rawData);
+       this.setState({
+         guestStatas:responseData,
+         dataLoaded:true
+       });
+
 
 
 

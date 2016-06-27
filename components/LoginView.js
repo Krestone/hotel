@@ -59,7 +59,7 @@ class LoginView extends Component {
                         value={this.state.username} />
                    </View>
                    <View style={styles.inputContainer}>
-                    <Image style={styles.inputUsername} source={require('./images/login1_person.png')}/>
+                    <Image style={styles.inputPassword} source={require('./images/login1_lock.png')}/>
                     <TextInput
                         placeholder="Password"
                         secureTextEntry={true}
@@ -92,7 +92,7 @@ var styles = StyleSheet.create({
       flex:1,
 
       padding: 10,
-      marginTop: 60,
+      marginTop: 40,
       alignItems: "center"
     },
     title: {
@@ -112,16 +112,18 @@ var styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#555555",
         borderRadius: 8,
-        color: "#555555"
+        color: "#555555",
+        width:300
     },
     button: {
-        height: 36,
+       padding:20,
+        height: 30,
         flex: 1,
         backgroundColor: "#555555",
         borderColor: "#555555",
         borderWidth: 1,
         borderRadius: 8,
-        marginTop: 50,
+        marginTop: 10,
         justifyContent: "center"
     },
     buttonText: {
@@ -137,21 +139,16 @@ var styles = StyleSheet.create({
     height:null,
   },
   inputContainer: {
-       padding: 10,
+       padding: 5,
        borderWidth: 1,
        borderBottomColor: 'transparent',
        borderColor: 'transparent',
-    
-       marginRight:35,
-       justifyContent:'flex-start',
-
-
-
-
+       flex:1,
+       justifyContent:'space-around',
+       flexDirection:'row'
 
    },
    input: {
-
         left: 61,
         top: 12,
         right: 0,
@@ -160,7 +157,7 @@ var styles = StyleSheet.create({
         flex:1,
     },
     inputs: {
-       marginTop: 30,
+       marginTop: 90,
        marginBottom: 10,
        flex: .25
    },
@@ -170,8 +167,8 @@ var styles = StyleSheet.create({
    },
    inputPassword: {
        marginLeft: 15,
-       width: 20,
-       height: 21
+       width: 30,
+       height: 33
    },
    inputUsername: {
      marginLeft: 15,
