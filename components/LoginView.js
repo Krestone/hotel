@@ -18,7 +18,6 @@ var HotelAdminService = require('./services.js')
 var bgImage= require('./images/background.png');
 
 
-
 class LoginView extends Component {
 
 
@@ -38,9 +37,7 @@ class LoginView extends Component {
 
       //console.log(this.onSubmitPressed())
     }
-    componentDidMount() {
 
-    }
 
 
 
@@ -62,6 +59,7 @@ class LoginView extends Component {
                         value={this.state.username} />
                    </View>
                    <View style={styles.inputContainer}>
+                    <Image style={styles.inputUsername} source={require('./images/login1_person.png')}/>
                     <TextInput
                         placeholder="Password"
                         secureTextEntry={true}
@@ -92,7 +90,7 @@ var styles = StyleSheet.create({
 
    container: {
       flex:1,
-      flexDirection:'column',
+
       padding: 10,
       marginTop: 60,
       alignItems: "center"
@@ -143,18 +141,23 @@ var styles = StyleSheet.create({
        borderWidth: 1,
        borderBottomColor: 'transparent',
        borderColor: 'transparent',
+    
+       marginRight:35,
+       justifyContent:'flex-start',
+
 
 
 
 
    },
    input: {
-        position: 'absolute',
+
         left: 61,
         top: 12,
         right: 0,
         height: 20,
-        fontSize: 14
+        fontSize: 14,
+        flex:1,
     },
     inputs: {
        marginTop: 30,
@@ -173,8 +176,8 @@ var styles = StyleSheet.create({
    inputUsername: {
      marginLeft: 15,
      marginBottom: 5,
-     width: 20,
-     height: 20
+     width: 30,
+     height: 30
    },
    header: {
        justifyContent: 'center',

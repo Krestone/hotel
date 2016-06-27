@@ -135,6 +135,56 @@ exports.getReservationList=function(){
    })
  }
 
+ exports.getStats=function(){
+   let rawData=[];
+   let key=this.props.hotel
+   let URL='http://checkinadvance.com/Statistics/GetGuests'
+   let params={
+     start:'06/23/2016',
+     end:'06/23/2016',
+     type:key,
+   };
+
+   //encode body into form urlencoded
+   let data = "";
+   for (var k in params) {
+       data += k + "=" + params[k] + "&"
+   }
+   //chain htto requesrs to get all stats
+   AsyncStorage.getItem('access_token').then((value) =>{
+
+     fetch(URL, {
+      method: 'POST',
+      cache: false,
+      headers: {
+        'Authorization': 'Bearer ' + value,
+         'Content-Type': 'application/x-www-form-urlencoded',
+         'Accept': 'application/json',
+
+      },
+      body: data
+     })
+     .then((response) => {
+        console.log(response);
+        this.setState({dataLoaded:true});
+        return response.json()
+     })
+     .then((responseData)=>{
+       rawData+=responseData;
+       console.log(rawData);
+
+
+
+
+
+     });
+
+
+ })
+ }
+
+
+
 
  exports.getGuestList=function(){
     let key=this.props.hotel
@@ -162,6 +212,7 @@ exports.getReservationList=function(){
        }).done();
     })
   }
+
 
 
 

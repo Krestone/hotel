@@ -40,6 +40,8 @@ class GuestList extends Component {
     };
      this.renderHotel = this.renderHotel.bind(this);
      this.getGuestList=HotelAdminService.getGuestList.bind(this);
+
+     this.getStats=HotelAdminService.getStats.bind(this);
      this.setSearchText=this.setSearchText.bind(this)
     //  this.SearchBar=this.SearchBar.bind(this);
     // this.refreshData=this.refreshData.bind(this);
@@ -50,9 +52,11 @@ class GuestList extends Component {
   }
 
   componentDidMount() {
-  HotelAdminService.getGuestList.bind(this)();
+//  HotelAdminService.getGuestList.bind(this)();
   console.log("Props in componenetDidMount");
   console.log(this.props);
+  console.log("Testing getstats");
+  HotelAdminService.getStats.bind(this)();
   }
 
 
@@ -116,6 +120,7 @@ class GuestList extends Component {
         <TextInput
         value={this.state.searchText}
         onChange={this.setSearchText.bind(this)}
+        style={styles.searchBar}
         placeholder='Search' />
             <ListView dataSource={this.state.dataSource} renderRow={this.renderHotel} style={styles.listView} refreshControl={
           <RefreshControl
@@ -268,6 +273,10 @@ const styles = StyleSheet.create({
  listView: {
    paddingTop: 21,
    backgroundColor: '#F5FCFF',
+ },
+ searchBar:{
+   backgroundColor: '#f8fcff',
+    borderBottomColor: 'black',
  }
 
 
