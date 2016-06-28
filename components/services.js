@@ -24,6 +24,10 @@ var config = {
 		timeout: 100000,
   };
 
+
+
+
+
 async function TokenGet(){
      var token = await AsyncStorage.getItem('access_token');
      return token;
@@ -135,13 +139,25 @@ exports.getReservationList=function(){
    })
  }
 
- exports.getStats=function(){
+//number of current guests in hotel
+ exports.getGuestStats=function(){
+   let now=new Date();
+   let year=now.getFullYear();
+   let month=now.getMonth()+1;
+   let day=now.getDate();
+   if(day<10){
+     day="0"+day;
+   }
+   if(month<10){
+     month="0"+month;
+   }
+   let date= month + "/" +day +"/"+year;
 
    let key=this.props.hotel
    let URL='http://checkinadvance.com/Statistics/GetGuests'
    let params={
-     start:'06/23/2016',
-     end:'06/23/2016',
+     start:date,
+     end:date,
      type:key,
    };
 
@@ -185,10 +201,140 @@ exports.getReservationList=function(){
  })
  }
 
+ exports.getReservationStats=function(){
+
+
+   let now=new Date();
+   let year=now.getFullYear();
+   let month=now.getMonth()+1; // Ocak=0 Aralik=11
+   let day=now.getDate();
+  //rakam basina 0
+   if(day<10){
+     day="0"+day;
+   }
+   if(month<10){
+     month="0"+month;
+   }
+   let date= month + "/" +day +"/"+year;
+   //date format: MM/DD/YYYY
+   console.log(date);
+
+
+
+   let key=this.props.hotel
+   let URL='http://checkinadvance.com/Statistics/GetReservationsBetweenDatesByKeys'
+   let params={
+     start:date,
+     end:date,
+     type:key,
+   };
+
+   //encode body into form urlencoded
+   let data = "";
+   for (var k in params) {
+       data += k + "=" + params[k] + "&"
+   }
+   //chain htto requesrs to get all stats
+   AsyncStorage.getItem('access_token').then((value) =>{
+
+     fetch(URL, {
+      method: 'POST',
+      cache: false,
+      headers: {
+        'Authorization': 'Bearer ' + value,
+         'Content-Type': 'application/x-www-form-urlencoded',
+         'Accept': 'application/json',
+
+      },
+      body: data
+     })
+     .then((response) => {
+
+        console.log(response);
+        return response.json()
+     })
+     .then((responseData)=>{
+       console.log(responseData);
+       this.setState({
+         guestStatas:responseData,
+         dataLoaded:true
+       });
+       console.log(this.state);
+   });
+ })
+ }
+
+ exports.getOccupiedItems=function(){
+   let now=new Date();
+   let year=now.getFullYear();
+   let month=now.getMonth()+1; // Ocak=0 Aralik=11
+   let day=now.getDate();
+  //rakam basina 0
+   if(day<10){
+     day="0"+day;
+   }
+   if(month<10){
+     month="0"+month;
+   }
+   let date= month + "/" +day +"/"+year;
+   //date format: MM/DD/YYYY
+   console.log(date);
+
+   let key=this.props.hotel
+   let URL='http://checkinadvance.com/Statistics/GetOccupiedItems'
+   let params={
+     start:date,
+     end:date,
+     type:key,
+   };
+
+   //encode body into form urlencoded
+   let data = "";
+   for (var k in params) {
+       data += k + "=" + params[k] + "&"
+   }
+   //chain htto requesrs to get all stats
+   AsyncStorage.getItem('access_token').then((value) =>{
+
+     fetch(URL, {
+      method: 'POST',
+      cache: false,
+      headers: {
+        'Authorization': 'Bearer ' + value,
+         'Content-Type': 'application/x-www-form-urlencoded',
+         'Accept': 'application/json',
+
+      },
+      body: data
+     })
+     .then((response) => {
+
+        console.log(response);
+        return response.json()
+     })
+     .then((responseData)=>{
+       console.log(responseData);
+       this.setState({
+         guestStatas:responseData,
+         dataLoaded:true
+       });
+       console.log(this.state);
+   });
+ })
+
+
+
+
+
+
+ }
+
+
 
 
 
  exports.getGuestList=function(){
+
     let key=this.props.hotel
     let URL=config.baseUrl + 'api/HotelAdmin/GetGuests?key=' + key
     AsyncStorage.getItem('access_token').then((value) =>{
@@ -208,9 +354,6 @@ exports.getReservationList=function(){
            dataSource: this.state.dataSource.cloneWithRows(responseData),
 
          });
-
-
-
        }).done();
     })
   }
@@ -220,13 +363,6 @@ exports.getReservationList=function(){
 
 
 exports.tester=function(){
-//  var REQUEST_URL= 'http://checkinadvance.com/api/HotelAdmin/GetKey';
-
-/*  console.log("Naber");
-  //var accessToken=TokenGet();
-  let test=TokenGet();
-  console.log(test);
-*/
 
   AsyncStorage.getItem('access_token').then((value) => {
 
@@ -247,27 +383,4 @@ exports.tester=function(){
       });
     }).done();
   }).done();
-}
-
-exports.GetKey=function(){
- var accessToken=TokenGet();
- console.log('Token from TokenGet');
- console.log(accessToken)
-
-
-//  LocalDb.getAccessToken();//sets token to state
-//  var accessToken=this.state.token;
-/*  REQUEST_URL='http://checkinadvance.com/api/HotelAdmin/GetKey';
-  fetch(REQUEST_URL, {
-  method: 'GET',
-  headers: {
-    'Authorization': 'Bearer ' + accessToken,
-  }}).then((response) =>
-   {
-     this.setState({ //Dont forget to bind 'this' to LocalDb.getAccessToken in react constructor!! ORNEK :this.serviceMethod= HotelAdminService.serviceMethod.(this); AND LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
-       //token: value,
-       dataLoaded:true,
-     });
-
-   }).done();*/
 }

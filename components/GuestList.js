@@ -40,23 +40,15 @@ class GuestList extends Component {
     };
      this.renderHotel = this.renderHotel.bind(this);
      this.getGuestList=HotelAdminService.getGuestList.bind(this);
+     this.getOccupiedItems=HotelAdminService.getOccupiedItems.bind(this);
 
-     this.getStats=HotelAdminService.getStats.bind(this);
      this.setSearchText=this.setSearchText.bind(this)
-    //  this.SearchBar=this.SearchBar.bind(this);
-    // this.refreshData=this.refreshData.bind(this);
-  //   this.tester= HotelAdminService.tester.bind(this);
-     //LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
-    // HotelAdminService.tester.bind(this);
 
   }
 
   componentDidMount() {
-//  HotelAdminService.getGuestList.bind(this)();
-  console.log("Props in componenetDidMount");
-  console.log(this.props);
-  console.log("Testing getstats");
-  HotelAdminService.getStats.bind(this)();
+  // HotelAdminService.getGuestList.bind(this)();
+    HotelAdminService.getOccupiedItems.bind(this)();
   }
 
 

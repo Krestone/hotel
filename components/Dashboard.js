@@ -30,19 +30,109 @@ class Dashboard extends Component{
     console.log(this.props.hotel);
     return(
       <View style={styles.container}>
-        <Text style={styles.title}>{this.props.hotel} Dashboard</Text>
-        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})} style={styles.button}>
-            <Text style={styles.buttonText}>Reservations</Text>
+          <View style={styles.header}>
+           <Text>Todays Stats</Text>
+          </View>
+
+        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <View style={styles.lineContainer}>
+            <Image
+             source={require('./images/key-icon.png')}
+             style={styles.thumbnail}
+            />
+            <View style={styles.rightContainer}>
+            <Text style={styles.title}>Reservations</Text>
+            <Text style={styles.title}>Reservations</Text>
+           </View>
+        </View>
         </TouchableHighlight>
-        <TouchableHighlight onPress={()=>Actions.guestlist({hotel: hotel})} style={styles.button}>
-            <Text style={styles.buttonText}>Guests</Text>
+
+        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <View style={styles.lineContainer}>
+            <Image
+             source={require('./images/sign-check-icon.png')}
+             style={styles.thumbnail}
+            />
+            <View style={styles.rightContainer}>
+            <Text style={styles.title}>Availability</Text>
+            <Text style={styles.title}>Reservations</Text>
+           </View>
+        </View>
         </TouchableHighlight>
-        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel: hotel})} style={styles.button}>
-            <Text style={styles.buttonText}>Food</Text>
+        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <View style={styles.lineContainer}>
+            <Image
+             source={require('./images/sign-error-icon.png')}
+             style={styles.thumbnail}
+            />
+            <View style={styles.rightContainer}>
+            <Text style={styles.title}>Occupancy</Text>
+            <Text style={styles.title}>Reservations</Text>
+           </View>
+        </View>
         </TouchableHighlight>
-        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel: hotel})} style={styles.button}>
-            <Text style={styles.buttonText}>Reservations</Text>
+        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <View style={styles.lineContainer}>
+            <Image
+             source={require('./images/keyring-icon.png')}
+             style={styles.thumbnail}
+            />
+            <View style={styles.rightContainer}>
+            <Text style={styles.title}>Total Guests</Text>
+            <Text style={styles.title}>Reservations</Text>
+           </View>
+        </View>
         </TouchableHighlight>
+        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <View style={styles.lineContainer}>
+            <Image
+             source={require('./images/envelope-icon.png')}
+             style={styles.thumbnail}
+            />
+            <View style={styles.rightContainer}>
+            <Text style={styles.title}>Emails Sent</Text>
+            <Text style={styles.title}>Reservations</Text>
+           </View>
+        </View>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <View style={styles.lineContainer}>
+            <Image
+             source={require('./images/key-icon.png')}
+             style={styles.thumbnail}
+            />
+            <View style={styles.rightContainer}>
+            <Text style={styles.title}>Logins</Text>
+            <Text style={styles.title}>Reservations</Text>
+           </View>
+        </View>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <View style={styles.lineContainer}>
+            <Image
+             source={require('./images/key-icon.png')}
+             style={styles.thumbnail}
+            />
+            <View style={styles.rightContainer}>
+            <Text style={styles.title}>Selected Items</Text>
+            <Text style={styles.title}>Reservations</Text>
+           </View>
+        </View>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <View style={styles.lineContainer}>
+            <Image
+             source={require('./images/key-icon.png')}
+             style={styles.thumbnail}
+            />
+            <View style={styles.rightContainer}>
+            <Text style={styles.title}>Pictures</Text>
+            <Text style={styles.title}>Reservations</Text>
+           </View>
+        </View>
+        </TouchableHighlight>
+        <View style={styles.footer}>
+        </View>
 
       </View>
 
@@ -53,9 +143,39 @@ class Dashboard extends Component{
 const styles ={
   container: {
       flex:1,
-      padding: 30,
-      marginTop: 65,
-      alignItems: "stretch"
+      backgroundColor: '#F5FCFF',
+      marginTop: 56,
+      alignItems:'stretch',
+
+
+  },
+  header:{
+
+    backgroundColor: '#F5FCFF',
+    flex:3,
+    flexDirection:'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+
+  },
+  lineContainer:{
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth:0.5,
+    borderColor: "#555555",
+    backgroundColor: '#F5FCFF',
+
+  },
+  footer:{
+
+    backgroundColor: '#F5FCFF',
+    flex:3,
+    flexDirection:'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+
   },
   title:{
     fontSize:20,
@@ -70,6 +190,7 @@ const styles ={
       borderRadius: 8,
       marginTop: 10,
       justifyContent: "center"
+
   },
   buttonText: {
       fontSize: 18,
@@ -93,5 +214,29 @@ const styles ={
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
+  thumbnail: {
+    width: 30,
+    height: 32,
+    marginLeft:10,
+
+
+  },
+  rightContainer:{
+    flex:1,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    padding:15
+  },
+  title:{
+    fontSize:20,
+    textAlign: 'center',
+  },
+  year: {
+    textAlign: 'center'
+  },
+ box:{
+   textAlign: 'center',
+   fontSize: 16
+ },
 }
 module.exports = Dashboard;

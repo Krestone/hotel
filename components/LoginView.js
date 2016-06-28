@@ -1,5 +1,5 @@
 
-
+'use strict';
 
 import React, { Component } from 'react';
 import {
@@ -16,6 +16,7 @@ import {
 import SecureView from './SecureView.js'
 var HotelAdminService = require('./services.js')
 var bgImage= require('./images/background.png');
+
 
 
 class LoginView extends Component {
@@ -73,6 +74,7 @@ class LoginView extends Component {
                     </TouchableHighlight>
                     <Text>{this.state.errorMessage}
                     </Text>
+
                     </View>
                     </View>
                 </Image>
@@ -95,6 +97,9 @@ var styles = StyleSheet.create({
       marginTop: 40,
       alignItems: "center"
     },
+    spinner: {
+     marginBottom: 50
+    },
     title: {
         fontSize: 18,
         marginBottom: 10,
@@ -116,10 +121,12 @@ var styles = StyleSheet.create({
         width:300
     },
     button: {
-       padding:20,
-        height: 30,
+
+        height: 25,
+        marginRight:60,
+        marginLeft:60,
         flex: 1,
-        backgroundColor: "#555555",
+        backgroundColor: "#ff5722",
         borderColor: "#555555",
         borderWidth: 1,
         borderRadius: 8,
