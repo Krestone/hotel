@@ -47,8 +47,8 @@ class GuestList extends Component {
   }
 
   componentDidMount() {
-  // HotelAdminService.getGuestList.bind(this)();
-    HotelAdminService.getOccupiedItems.bind(this)();
+   HotelAdminService.getGuestList.bind(this)();
+  //  HotelAdminService.getOccupiedItems.bind(this)();
   }
 
 

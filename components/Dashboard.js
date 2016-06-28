@@ -37,7 +37,7 @@ class Dashboard extends Component{
         <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
            <View style={styles.lineContainer}>
             <Image
-             source={require('./images/key-icon.png')}
+             source={require('./images/reservation.png')}
              style={styles.thumbnail}
             />
             <View style={styles.rightContainer}>
@@ -46,8 +46,19 @@ class Dashboard extends Component{
            </View>
         </View>
         </TouchableHighlight>
-
         <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <View style={styles.lineContainer}>
+            <Image
+             source={require('./images/keyring-icon.png')}
+             style={styles.thumbnail}
+            />
+            <View style={styles.rightContainer}>
+            <Text style={styles.title}>Total Guests</Text>
+            <Text style={styles.title}>Reservations</Text>
+           </View>
+        </View>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={()=>Actions.guestlist({hotel:hotel})}>
            <View style={styles.lineContainer}>
             <Image
              source={require('./images/sign-check-icon.png')}
@@ -71,18 +82,7 @@ class Dashboard extends Component{
            </View>
         </View>
         </TouchableHighlight>
-        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
-           <View style={styles.lineContainer}>
-            <Image
-             source={require('./images/keyring-icon.png')}
-             style={styles.thumbnail}
-            />
-            <View style={styles.rightContainer}>
-            <Text style={styles.title}>Total Guests</Text>
-            <Text style={styles.title}>Reservations</Text>
-           </View>
-        </View>
-        </TouchableHighlight>
+
         <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
            <View style={styles.lineContainer}>
             <Image
@@ -122,7 +122,7 @@ class Dashboard extends Component{
         <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
            <View style={styles.lineContainer}>
             <Image
-             source={require('./images/key-icon.png')}
+             source={require('./images/folder-picture-icon.png')}
              style={styles.thumbnail}
             />
             <View style={styles.rightContainer}>
@@ -175,6 +175,7 @@ const styles ={
     flexDirection:'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    height:30,
 
   },
   title:{
@@ -209,15 +210,16 @@ const styles ={
 	},
 	leftButtonContainer: {
 		paddingLeft: 15,
-		paddingRight: 20,
+		paddingRight: 30,
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
   thumbnail: {
-    width: 30,
-    height: 32,
-    marginLeft:10,
+    width: 33,
+    height: 38,
+    margin:13,
+    paddingLeft:30,
 
 
   },

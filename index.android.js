@@ -10,6 +10,8 @@ import {
   Text,
   View,
   Navigator,
+  TouchableOpacity,
+  Image,
   } from 'react-native';
 
 //Scenes
@@ -25,6 +27,19 @@ import SideDrawer from './components/SideDrawer.js';
 import SideDrawerContent from './components/SideDrawerContent.js'
 
 class hotel extends React.Component {
+  renderMenuButton () {
+		return (
+			<TouchableOpacity
+				style={styles.leftButtonContainer}
+
+			>
+				<Image
+					source={require('./components/images/ic_arrow_back_white_24dp.png')}
+					style={{height: 24, width: 24}}
+				/>
+			</TouchableOpacity>
+		)
+	}
 
 
   render() {
@@ -33,7 +48,12 @@ class hotel extends React.Component {
        <Scene key="root">
          <Scene key="pageOne" component={LoginView} initial={true} hideNavBar={true} />
          <Scene key="pageTwo" component={SecureView} title="PageTwo" hideNavBar={true} />
-         <Scene key="dashboard" component={Dashboard} title="Dashboard" hideNavBar={false}/>
+         <Scene key="dashboard" component={Dashboard} title="Dashboard" hideNavBar={false}
+         navigationBarStyle={styles.navBar}
+         backButtonImage={require('./components/images/ic_arrow_back_white_24dp.png')}
+        titleStyle={styles.navTitle}
+
+         />
          <Scene key="reservationlist" component={ReservationList} title="ReservationList" hideNavBar={true} />
           <Scene key="guestlist" component={GuestList} title="GuestList" hideNavBar={true} />
        </Scene>
@@ -63,8 +83,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: 'green',
+		justifyContent: 'space-between',
+		backgroundColor: '#1d1820',
 	},
 	navTitle: {
 		color: 'white',
