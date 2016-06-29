@@ -41,13 +41,14 @@ class GuestList extends Component {
      this.renderHotel = this.renderHotel.bind(this);
      this.getGuestList=HotelAdminService.getGuestList.bind(this);
      this.getOccupiedItems=HotelAdminService.getOccupiedItems.bind(this);
-
+     this.getGuestStats=HotelAdminService.getGuestStats.bind(this);
      this.setSearchText=this.setSearchText.bind(this)
 
   }
 
   componentDidMount() {
-   HotelAdminService.getGuestList.bind(this)();
+   //HotelAdminService.getGuestList.bind(this)();
+   HotelAdminService.getGuestStats.bind(this)();
   //  HotelAdminService.getOccupiedItems.bind(this)();
   }
 
@@ -101,8 +102,8 @@ class GuestList extends Component {
 
 
   render() {
-    console.log("Props in GuestList render");
-    console.log(this.props);
+    //console.log("Props in GuestList render");
+  //  console.log(this.props);
 
     if (!this.state.dataLoaded) {
       return this.renderLoadingView();

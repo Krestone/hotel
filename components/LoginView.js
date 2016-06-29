@@ -15,6 +15,7 @@ import {
 
 import SecureView from './SecureView.js'
 var HotelAdminService = require('./services.js')
+var ProgressBar = require('ProgressBarAndroid');
 var bgImage= require('./images/background.png');
 
 
@@ -29,6 +30,7 @@ class LoginView extends Component {
             username: "",
             password: "",
             errorMessage: "",
+            
 
         };
 

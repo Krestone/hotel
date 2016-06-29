@@ -11,7 +11,7 @@ import {
   ToolbarAndroid,
 } from 'react-native';
 
-
+var ProgressBar = require('ProgressBarAndroid');
 import { Actions } from 'react-native-router-flux';
 var HotelAdminService = require('./services.js');
 
@@ -19,15 +19,71 @@ var HotelAdminService = require('./services.js');
 class Dashboard extends Component{
   constructor(props){
     super(props);
+    let now=new Date();
+    let year=now.getFullYear();
+    let month=now.getMonth()+1;
+    let day=now.getDate();
+    if(day<10){
+      day="0"+day;
+    }
+    if(month<10){
+      month="0"+month;
+    }
+    this.props.date= month + "/" +day +"/"+year;
   //  Actions.reservationlist.bind(this);
 
+
+    this.state = {
+    guestStatsLoaded:false,
+     reservationStatsLoaded:false,
+     guestStats:"",
+     reservationStats:"",
+     progress:1,
+
+   }
     //this.ReservationList=HotelAdminService.ReservationList.bind(this);
+     this.getGuestStats=HotelAdminService.getGuestStats.bind(this);
+     this.getReservationStats=HotelAdminService.getReservationStats.bind(this);
+
+  }
+
+  /*async getCache(key){
+    try{
+        let value = await AsyncStorage.getItem(key);
+        return value.json();
+    }
+    catch(e){
+        console.log('caught error', e);
+        // Handle exceptions
+    }
+
+}*/
+
+
+
+
+  componentDidMount(){
+    HotelAdminService.getReservationStats.bind(this)();
+     HotelAdminService.getGuestStats.bind(this)();
 
   }
 
   render(){
+
+
+
+
+
+
+    console.log(this.state);
+
     var hotel = this.props.hotel
-    console.log(this.props.hotel);
+
+  //tum datalar gelene kadar progressbar
+   if (!(this.state.guestStatsLoaded && this.state.reservationStatsLoaded )){
+      return this.renderLoadingView();
+   }
+     let guestStats=this.state.guestStats[0]["Y"];
     return(
       <View style={styles.container}>
           <View style={styles.header}>
@@ -42,7 +98,7 @@ class Dashboard extends Component{
             />
             <View style={styles.rightContainer}>
             <Text style={styles.title}>Reservations</Text>
-            <Text style={styles.title}>Reservations</Text>
+            <Text style={styles.title}></Text>
            </View>
         </View>
         </TouchableHighlight>
@@ -54,7 +110,7 @@ class Dashboard extends Component{
             />
             <View style={styles.rightContainer}>
             <Text style={styles.title}>Total Guests</Text>
-            <Text style={styles.title}>Reservations</Text>
+            <Text style={styles.title}>{guestStats}</Text>
            </View>
         </View>
         </TouchableHighlight>
@@ -131,6 +187,7 @@ class Dashboard extends Component{
            </View>
         </View>
         </TouchableHighlight>
+
         <View style={styles.footer}>
         </View>
 
@@ -138,6 +195,16 @@ class Dashboard extends Component{
 
     )
   }
+  renderLoadingView() {
+    return (
+      <View style={styles.loadingContainer}>
+
+          <ProgressBar progress={this.state.progress} />
+
+      </View>
+    );
+  }
+
 
 }
 const styles ={
@@ -149,6 +216,14 @@ const styles ={
 
 
   },
+  loadingContainer: {
+      flex:1,
+      backgroundColor: '#F5FCFF',
+      marginTop: 56,
+      alignItems:'stretch',
+      justifyContent:'center'
+
+  },
   header:{
 
     backgroundColor: '#F5FCFF',
@@ -157,9 +232,10 @@ const styles ={
     justifyContent: 'space-around',
     alignItems: 'center',
 
+
   },
   lineContainer:{
-    flex: 1,
+    flex: 5,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -167,11 +243,12 @@ const styles ={
     borderColor: "#555555",
     backgroundColor: '#F5FCFF',
 
+
   },
   footer:{
 
     backgroundColor: '#F5FCFF',
-    flex:3,
+    flex:1,
     flexDirection:'row',
     justifyContent: 'space-around',
     alignItems: 'center',

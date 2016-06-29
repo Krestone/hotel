@@ -36,8 +36,7 @@ class SecureView extends Component {
   constructor(props) {
     super(props);
      var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    console.log("Prop in constructor")
-    console.log(this.props.hotels);
+
     this.state = {
        dataSource: ds.cloneWithRows(this.props.hotels),
 };
@@ -53,8 +52,7 @@ class SecureView extends Component {
 
   render() {
 
-  console.log("Props");
-  console.log(this.props.hotels);
+  
     /*if (!(this.state.dataLoaded) ) {
       return this.renderLoadingView();
     }*/
