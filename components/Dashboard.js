@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -36,54 +37,53 @@ class Dashboard extends Component{
     this.state = {
     guestStatsLoaded:false,
      reservationStatsLoaded:false,
-     guestStats:"",
-     reservationStats:"",
+     guestStatsLoaded:false,
+     occupiedLoaded:false,
+     availableLoaded:false,
+     occupiedStats:[],
+     guestStats:[],
+     reservationStats:[],
+     availableStats:[],
      progress:1,
 
    }
-    //this.ReservationList=HotelAdminService.ReservationList.bind(this);
+
      this.getGuestStats=HotelAdminService.getGuestStats.bind(this);
      this.getReservationStats=HotelAdminService.getReservationStats.bind(this);
-
+     this.getOccupiedItems=HotelAdminService.getOccupiedItems.bind(this);
+     this.getAvailableItems=HotelAdminService.getAvailableItems.bind(this);
   }
 
-  /*async getCache(key){
-    try{
-        let value = await AsyncStorage.getItem(key);
-        return value.json();
-    }
-    catch(e){
-        console.log('caught error', e);
-        // Handle exceptions
-    }
 
-}*/
 
 
 
 
   componentDidMount(){
     HotelAdminService.getReservationStats.bind(this)();
-     HotelAdminService.getGuestStats.bind(this)();
+    HotelAdminService.getGuestStats.bind(this)();
+    HotelAdminService.getOccupiedItems.bind(this)();
+    //HotelAdminService.getAvailableItems.bind(this)();
+
 
   }
 
   render(){
 
 
-
-
-
-
     console.log(this.state);
-
+    console.log(this.props);
     var hotel = this.props.hotel
 
-  //tum datalar gelene kadar progressbar
-   if (!(this.state.guestStatsLoaded && this.state.reservationStatsLoaded )){
+    //tum datalar gelene kadar progressbar
+    if (!(this.state.guestStatsLoaded && this.state.reservationStatsLoaded && this.state.occupiedLoaded  )){
       return this.renderLoadingView();
-   }
-     let guestStats=this.state.guestStats[0]["Y"];
+    }
+    let guestStats=this.state.guestStats[0]["Y"];
+    let occupiedStats=this.state.occupiedStats.length;
+    //console.log(this.state.availabeStats);
+
+
     return(
       <View style={styles.container}>
           <View style={styles.header}>
@@ -122,7 +122,7 @@ class Dashboard extends Component{
             />
             <View style={styles.rightContainer}>
             <Text style={styles.title}>Availability</Text>
-            <Text style={styles.title}>Reservations</Text>
+            <Text style={styles.title}></Text>
            </View>
         </View>
         </TouchableHighlight>
@@ -134,7 +134,7 @@ class Dashboard extends Component{
             />
             <View style={styles.rightContainer}>
             <Text style={styles.title}>Occupancy</Text>
-            <Text style={styles.title}>Reservations</Text>
+            <Text style={styles.title}>{occupiedStats}</Text>
            </View>
         </View>
         </TouchableHighlight>

@@ -36,6 +36,9 @@ exports.login=function(){
 
     var usr= 'yasemincidem@gmail.com';
     var pass='yasemin1991';
+    this.setState({
+      loading:true,
+    })
     var params = {
     username: usr,
     password: pass,
@@ -154,11 +157,11 @@ exports.getReservationList=function(){
    for (var k in params) {
        data += k + "=" + params[k] + "&"
    }
-   //chain htto requesrs to get all stats
-   console.log("Before reacging AsyncStorage");
+
+   console.log("Guest Stats: Before reacging AsyncStorage");
    AsyncStorage.getItem('access_token').then((value) =>{
-     console.log("got token");
-     console.log("guest stats request sent");
+     console.log("Guest Stats: got token, sending request...");
+
      fetch(URL, {
       method: 'POST',
       cache: false,
@@ -171,20 +174,20 @@ exports.getReservationList=function(){
       body: data
      })
      .then((response) => {
-        console.log("got response");
+        console.log("Guest Stats: got response");
         return response.json()
      })
      .then((responseData)=>{
     //   console.log("ResponseData in stats")
     //   console.log(responseData);
       // console.log(responseData[0]["Y"]);
-         console.log('guest stats geldi');
-         consoel.log(responseData);
+         console.log('Guest Stats: got responseData');
+         console.log(responseData);
        this.setState({
          guestStats:responseData,
          guestStatsLoaded:true,
        });
-       console.log("after guesstats set state");
+       console.log("Guest Stats: set state done");
 
 
 
@@ -213,9 +216,6 @@ exports.getReservationList=function(){
    let date= month + "/" +day +"/"+year;
    //date format: MM/DD/YYYY
   // console.log(date);
-
-
-
    let key=this.props.hotel
    let URL='http://checkinadvance.com/Statistics/GetReservationsBetweenDatesByKeys'
    let params={
@@ -232,7 +232,7 @@ exports.getReservationList=function(){
    //chain htto requesrs to get all stats
 
    AsyncStorage.getItem('access_token').then((value) =>{
-     console.log("reservation stats request sent");
+     console.log("Reservation Stats: got token, sending request...");
      fetch(URL, {
       method: 'POST',
       cache: false,
@@ -250,15 +250,18 @@ exports.getReservationList=function(){
         return response.json()
      })
      .then((responseData)=>{
-        console.log('reservstats geldi');
-       console.log(responseData);
-       this.setState({
+        console.log('Reservation Stats: got responseData');
+        //console.log(responseData);
+
+        this.setState({
          reservationStats:responseData,
          reservationStatsLoaded:true
        });
-       console.log(this.state);
-   });
- })
+       console.log("Reservation Stats: changed state");
+
+
+   }).done();
+ }).done()
  }
 
  exports.getOccupiedItems=function(){
@@ -275,7 +278,7 @@ exports.getReservationList=function(){
    }
    let date= month + "/" +day +"/"+year;
    //date format: MM/DD/YYYY
-   console.log(date);
+   //console.log(date);
 
    let key=this.props.hotel
    let URL='http://checkinadvance.com/Statistics/GetOccupiedItems'
@@ -312,19 +315,73 @@ exports.getReservationList=function(){
      .then((responseData)=>{
        console.log(responseData);
        this.setState({
-         guestStats:responseData,
-         dataLoaded:true
+         occupiedStats:responseData,
+         occupiedLoaded:true
        });
 
    });
- })
+ }).done()
+}
 
+exports.getAvailableItems=function(){
+  let now=new Date();
+  let year=now.getFullYear();
+  let month=now.getMonth()+1; // Ocak=0 Aralik=11
+  let day=now.getDate();
+ //rakam basina 0
+  if(day<10){
+    day="0"+day;
+  }
+  if(month<10){
+    month="0"+month;
+  }
+  let date= month + "/" +day +"/"+year;
+  //date format: MM/DD/YYYY
+  //console.log(date);
 
+  let key=this.props.hotel
+  let URL='http://checkinadvance.com/Statistics/GetAvailableItems'
+  let params={
+    start:date,
+    end:date,
+    type:key,
+  };
 
+  //encode body into form urlencoded
+  let data = "";
+  for (var k in params) {
+      data += k + "=" + params[k] + "&"
+  }
+  //chain htto requesrs to get all stats
+  AsyncStorage.getItem('access_token').then((value) =>{
 
+    fetch(URL, {
+     method: 'POST',
+     cache: false,
+     headers: {
+       'Authorization': 'Bearer ' + value,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json',
 
+     },
+     body: data
+    })
+    .then((response) => {
 
- }
+       console.log(response);
+       return response.json()
+    })
+    .then((responseData)=>{
+      console.log(responseData);
+      console.log(responseData.length)
+      this.setState({
+        availableStats:responseData,
+        availableLoaded:true
+      });
+
+  });
+})
+}
 
 
 
@@ -351,6 +408,7 @@ exports.getReservationList=function(){
            dataSource: this.state.dataSource.cloneWithRows(responseData),
 
          });
+         console.log("after guest list set state");
        }).done();
     })
   }

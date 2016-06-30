@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 var HotelAdminService = require('./services.js');
-import LocalDb from './LocalDatabase.js';
+var ProgressBar = require('ProgressBarAndroid');
 import SearchBar from './searchBar.android.js';
 import Dashboard from './Dashboard.js';
 import { filter, indexOf, invert, findKey,search,} from 'lodash-node';
@@ -36,6 +36,7 @@ class ReservationList extends Component {
          rowHasChanged: (row1, row2) => row1 !== row2,
        }),
        refreshing: false,
+       progress:1,
 
     };
      this.renderHotel = this.renderHotel.bind(this);
@@ -125,7 +126,15 @@ class ReservationList extends Component {
         </View>
   );
 }
+renderLoadingView() {
+  return (
+    <View style={styles.loadingContainer}>
 
+        <ProgressBar progress={this.state.progress} />
+
+    </View>
+  );
+}
 
 
 
@@ -226,6 +235,14 @@ const styles = StyleSheet.create({
   viewContainer: {
      flex: 1,
      flexDirection: 'column',
+  },
+  loadingContainer: {
+      flex:1,
+      backgroundColor: '#F5FCFF',
+      marginTop: 56,
+      alignItems:'stretch',
+      justifyContent:'center'
+
   },
 
   container: {

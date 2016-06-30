@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 var HotelAdminService = require('./services.js');
-import LocalDb from './LocalDatabase.js';
+var ProgressBar = require('ProgressBarAndroid');
 import SearchBar from './searchBar.android.js';
 import Dashboard from './Dashboard.js';
 import { filter, indexOf, invert, findKey,search,} from 'lodash-node';
@@ -36,6 +36,7 @@ class GuestList extends Component {
          rowHasChanged: (row1, row2) => row1 !== row2,
        }),
        refreshing: false,
+       progress:1,
 
     };
      this.renderHotel = this.renderHotel.bind(this);
@@ -47,23 +48,21 @@ class GuestList extends Component {
   }
 
   componentDidMount() {
-   //HotelAdminService.getGuestList.bind(this)();
-   HotelAdminService.getGuestStats.bind(this)();
-  //  HotelAdminService.getOccupiedItems.bind(this)();
+   HotelAdminService.getGuestList.bind(this)();
+
   }
 
 
 
   renderLoadingView() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>
-          Gelsin Filmler...
-        </Text>
+      <View style={styles.loadingContainer}>
+
+          <ProgressBar progress={this.state.progress} />
+
       </View>
     );
   }
-
 
 
 
@@ -241,6 +240,14 @@ const styles = StyleSheet.create({
      flexDirection: 'row',
      justifyContent: 'center',
      alignItems: 'center',
+
+   },
+   loadingContainer: {
+       flex:1,
+       backgroundColor: '#F5FCFF',
+       marginTop: 56,
+       alignItems:'stretch',
+       justifyContent:'center'
 
    },
 

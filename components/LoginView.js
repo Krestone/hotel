@@ -17,6 +17,7 @@ import SecureView from './SecureView.js'
 var HotelAdminService = require('./services.js')
 var ProgressBar = require('ProgressBarAndroid');
 var bgImage= require('./images/background.png');
+var ProgressBar = require('ProgressBarAndroid');
 
 
 
@@ -30,7 +31,9 @@ class LoginView extends Component {
             username: "",
             password: "",
             errorMessage: "",
-            
+            progress:0,
+            loading:false,
+
 
         };
 
@@ -40,6 +43,12 @@ class LoginView extends Component {
 
       //console.log(this.onSubmitPressed())
     }
+
+    maybeLoad() {
+    if ( this.state.loading ) {
+        return <ProgressBar progress={this.state.progress} />;
+    }
+  }
 
 
 
@@ -76,6 +85,9 @@ class LoginView extends Component {
                     </TouchableHighlight>
                     <Text>{this.state.errorMessage}
                     </Text>
+                    <View>{this.maybeLoad()}</View>
+
+
 
                     </View>
                     </View>
