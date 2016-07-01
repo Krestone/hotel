@@ -40,10 +40,12 @@ class Dashboard extends Component{
      guestStatsLoaded:false,
      occupiedLoaded:false,
      availableLoaded:false,
-     occupiedStats:[],
-     guestStats:[],
-     reservationStats:[],
-     availableStats:[],
+     loginsLoaded:false,
+     loginStats:"",
+     occupiedStats:"",
+     guestStats:"",
+     reservationStats:"",
+     availableStats:"",
      progress:1,
 
    }
@@ -52,20 +54,26 @@ class Dashboard extends Component{
      this.getReservationStats=HotelAdminService.getReservationStats.bind(this);
      this.getOccupiedItems=HotelAdminService.getOccupiedItems.bind(this);
      this.getAvailableItems=HotelAdminService.getAvailableItems.bind(this);
+     this.getLogins=HotelAdminService.getLogins.bind(this);
+  }
+
+  getData(date, date_end){
+    HotelAdminService.getReservationStats.bind(this)(date, date_end );
+    HotelAdminService.getGuestStats.bind(this)(date, date_end );
+    HotelAdminService.getOccupiedItems.bind(this)(date, date_end );
+    HotelAdminService.getAvailableItems.bind(this)(date, date_end);
+    HotelAdminService.getLogins.bind(this)(date, date_end );
   }
 
 
-
-
-
-
   componentDidMount(){
-    HotelAdminService.getReservationStats.bind(this)();
-    HotelAdminService.getGuestStats.bind(this)();
-    HotelAdminService.getOccupiedItems.bind(this)();
-    //HotelAdminService.getAvailableItems.bind(this)();
+    var initNow = HotelAdminService.getNowInFormat();
 
-
+    this.setState({
+      moment1:initNow,
+      moment2:initNow,
+    });
+    this.getData.bind(this)(initNow, initNow);
   }
 
   render(){
@@ -76,18 +84,31 @@ class Dashboard extends Component{
     var hotel = this.props.hotel
 
     //tum datalar gelene kadar progressbar
-    if (!(this.state.guestStatsLoaded && this.state.reservationStatsLoaded && this.state.occupiedLoaded  )){
+    if (!(this.state.guestStatsLoaded && this.state.reservationStatsLoaded && this.state.occupiedLoaded  && this.state.availableLoaded && this.state.loginsLoaded )){
       return this.renderLoadingView();
     }
-    let guestStats=this.state.guestStats[0]["Y"];
-    let occupiedStats=this.state.occupiedStats.length;
-    //console.log(this.state.availabeStats);
+    //let guestStats=(this.state.guestStats.length != 0) ? this.state.guestStats[0]["Y"] : [];
 
+
+    let loginStats=this.state.loginStats[0]['Y'];
+    let guestStats=this.state.guestStats[0]["Y"];
+    let moment1=this.state.moment1;
+    let moment2=this.state.moment2;
+    console.log(loginStats);
+    console.log(guestStats);
 
     return(
       <View style={styles.container}>
           <View style={styles.header}>
-           <Text>Todays Stats</Text>
+           <Text>Select Dates:</Text>
+           <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+              <Text>{moment1}</Text>
+           </TouchableHighlight>
+           <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+              <Text>{moment2}</Text>
+           </TouchableHighlight>
+           <Text>OK</Text>
+
           </View>
 
         <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
@@ -134,7 +155,7 @@ class Dashboard extends Component{
             />
             <View style={styles.rightContainer}>
             <Text style={styles.title}>Occupancy</Text>
-            <Text style={styles.title}>{occupiedStats}</Text>
+            <Text style={styles.title}></Text>
            </View>
         </View>
         </TouchableHighlight>
@@ -159,7 +180,7 @@ class Dashboard extends Component{
             />
             <View style={styles.rightContainer}>
             <Text style={styles.title}>Logins</Text>
-            <Text style={styles.title}>Reservations</Text>
+            <Text style={styles.title}>{loginStats}</Text>
            </View>
         </View>
         </TouchableHighlight>
@@ -229,7 +250,7 @@ const styles ={
     backgroundColor: '#F5FCFF',
     flex:3,
     flexDirection:'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
 
 
