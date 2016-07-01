@@ -85,15 +85,17 @@ class Dashboard extends Component{
   }
    async showPicker1(changedState,options) {
      console.log("date launched");
+     let newDate="";
      try {
 
      const {action, year, month, day} = await DatePickerAndroid.open(options);
      if (action === DatePickerAndroid.dismissedAction) {
        console.log("Dismissed")
+       newDate=this.state.moment1;
      } else {
        var date = new Date(year, month, day);
        //newState[stateKey + 'Text'] = date.toLocaleDateString();
-       var newDate= HotelAdminService.getNowInFormat(date);
+       newDate= HotelAdminService.getNowInFormat(date);
      }
      this.setState({moment1: newDate});
    } catch ({code, message}) {
@@ -102,16 +104,17 @@ class Dashboard extends Component{
  }
 
  async showPicker2(changedState,options) {
+   let newDate="";
    console.log("date launched");
    try {
 
    const {action, year, month, day} = await DatePickerAndroid.open(options);
    if (action === DatePickerAndroid.dismissedAction) {
      console.log("Dismissed")
+     newDate=this.state.moment2;
    } else {
      var date = new Date(year, month, day);
-     //newState[stateKey + 'Text'] = date.toLocaleDateString();
-     var newDate= HotelAdminService.getNowInFormat(date);
+     newDate= HotelAdminService.getNowInFormat(date);
    }
    this.setState({moment2: newDate});
  } catch ({code, message}) {
