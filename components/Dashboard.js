@@ -10,6 +10,7 @@ import {
   TextInput,
   Image,
   ToolbarAndroid,
+  DatePickerAndroid,
 } from 'react-native';
 
 var ProgressBar = require('ProgressBarAndroid');
@@ -20,22 +21,13 @@ var HotelAdminService = require('./services.js');
 class Dashboard extends Component{
   constructor(props){
     super(props);
-    let now=new Date();
-    let year=now.getFullYear();
-    let month=now.getMonth()+1;
-    let day=now.getDate();
-    if(day<10){
-      day="0"+day;
-    }
-    if(month<10){
-      month="0"+month;
-    }
-    this.props.date= month + "/" +day +"/"+year;
-  //  Actions.reservationlist.bind(this);
 
+  //  Actions.reservationlist.bind(this);
+    let initNow= new Date();
+    this.props.initNow = HotelAdminService.getNowInFormat(initNow); //format date
 
     this.state = {
-    guestStatsLoaded:false,
+     guestStatsLoaded:false,
      reservationStatsLoaded:false,
      guestStatsLoaded:false,
      occupiedLoaded:false,
@@ -47,6 +39,9 @@ class Dashboard extends Component{
      reservationStats:"",
      availableStats:"",
      progress:1,
+     presetDate: new Date(2020, 4, 5),
+     moment1:this.props.initNow,
+     moment2:this.props.initNow,
 
    }
 
@@ -65,16 +60,64 @@ class Dashboard extends Component{
     HotelAdminService.getLogins.bind(this)(date, date_end );
   }
 
-
+  //get the inital dates as today
   componentDidMount(){
-    var initNow = HotelAdminService.getNowInFormat();
 
-    this.setState({
-      moment1:initNow,
-      moment2:initNow,
-    });
-    this.getData.bind(this)(initNow, initNow);
+    this.getData.bind(this)(this.state.moment1, this.state.moment2);//get stats from server
   }
+
+
+ //ONEMLI!!!!: onClick lerde state optionlar sonuda batchlenip hep birlikte calisiyor.
+ //Loadingin once olmasi, getData nin sonra olmasi icin setState i async callbackli lullan
+  clickedOK(){
+    let date1=this.state.moment1;
+    let date2=this.state.moment2;
+    //ikinci arguman callback
+    this.setState(
+      {guestStatsLoaded:false,
+      reservationStatsLoaded:false,
+      guestStatsLoaded:false,
+      occupiedLoaded:false,
+      availableLoaded:false,
+      loginsLoaded:false} ,this.getData.bind(this)(date1,date2)
+
+    )
+  }
+   async showPicker1(changedState,options) {
+     console.log("date launched");
+     try {
+
+     const {action, year, month, day} = await DatePickerAndroid.open(options);
+     if (action === DatePickerAndroid.dismissedAction) {
+       console.log("Dismissed")
+     } else {
+       var date = new Date(year, month, day);
+       //newState[stateKey + 'Text'] = date.toLocaleDateString();
+       var newDate= HotelAdminService.getNowInFormat(date);
+     }
+     this.setState({moment1: newDate});
+   } catch ({code, message}) {
+     console.warn('Error in example', message);
+   }
+ }
+
+ async showPicker2(changedState,options) {
+   console.log("date launched");
+   try {
+
+   const {action, year, month, day} = await DatePickerAndroid.open(options);
+   if (action === DatePickerAndroid.dismissedAction) {
+     console.log("Dismissed")
+   } else {
+     var date = new Date(year, month, day);
+     //newState[stateKey + 'Text'] = date.toLocaleDateString();
+     var newDate= HotelAdminService.getNowInFormat(date);
+   }
+   this.setState({moment2: newDate});
+ } catch ({code, message}) {
+   console.warn('Error in example', message);
+ }
+}
 
   render(){
 
@@ -96,18 +139,23 @@ class Dashboard extends Component{
     let moment2=this.state.moment2;
     console.log(loginStats);
     console.log(guestStats);
+    console.log("moment1");
+    console.log(moment1);
+
 
     return(
       <View style={styles.container}>
           <View style={styles.header}>
            <Text>Select Dates:</Text>
-           <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <TouchableHighlight  onPress={ ()=>this.showPicker1({date: this.state.presetDate}) }>
               <Text>{moment1}</Text>
            </TouchableHighlight>
-           <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <TouchableHighlight onPress={ ()=>this.showPicker2({date: this.state.presetDate}) }>
               <Text>{moment2}</Text>
            </TouchableHighlight>
-           <Text>OK</Text>
+           <TouchableHighlight onPress={()=>this.clickedOK()}>
+              <Text>OK</Text>
+           </TouchableHighlight>
 
           </View>
 

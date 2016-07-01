@@ -37,9 +37,9 @@ async function TokenGet(){
      var token = await AsyncStorage.getItem('access_token');
      return token;
 }
-
-exports.getNowInFormat=function(){
-  let now=new Date();
+//date i requeste uygun formata sokuyor
+exports.getNowInFormat=function(newDate){
+  let now=newDate;
   let year=now.getFullYear();
   let month=now.getMonth()+1; // Ocak=0 Aralik=11
   let day=now.getDate();
