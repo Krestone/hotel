@@ -383,6 +383,145 @@ exports.getAvailableItems=function(start,end,token){
 }
 
 
+exports.getEmailStats=function(start, end,token){
+ let accessToken=token
+ let key=this.props.hotel
+ let URL='http://checkinadvance.com/Statistics/SentEmails'
+ let params={
+   start:start,
+   end:end,
+   type:key,
+ };
+ //encode body into form urlencoded
+ let data = "";
+ for (var k in params) {
+     data += k + "=" + params[k] + "&"
+ }
+   fetch(URL, {
+    method: 'POST',
+    cache: false,
+    headers: {
+      'Authorization': 'Bearer ' + accessToken,
+       'Content-Type': 'application/x-www-form-urlencoded',
+       'Accept': 'application/json',
+
+    },
+    body: data
+   })
+   .then((response) => {
+
+      console.log(response);
+      return response.json()
+   })
+   .then((responseData)=>{
+     console.log("Email Stats: got response");
+     console.log(responseData);
+     console.log(responseData.length)
+     this.setState({
+      emailStats:responseData,
+      emailsLoaded:true
+     });
+
+     console.log("Email Stats: changed state");
+
+ });
+
+}
+
+exports.getSelectedStats=function(start, end,token){
+ let accessToken=token
+ let key=this.props.hotel
+ let URL='http://checkinadvance.com/Statistics/SelectedItems'
+ let params={
+   start:start,
+   end:end,
+   type:key,
+ };
+ //encode body into form urlencoded
+ let data = "";
+ for (var k in params) {
+     data += k + "=" + params[k] + "&"
+ }
+   fetch(URL, {
+    method: 'POST',
+    cache: false,
+    headers: {
+      'Authorization': 'Bearer ' + accessToken,
+       'Content-Type': 'application/x-www-form-urlencoded',
+       'Accept': 'application/json',
+
+    },
+    body: data
+   })
+   .then((response) => {
+
+      console.log(response);
+      return response.json()
+   })
+   .then((responseData)=>{
+     console.log("Selected Stats: got response");
+     console.log(responseData);
+     console.log(responseData.length)
+     this.setState({
+      selectedStats:responseData,
+      selectedLoaded:true
+     });
+
+     console.log("Selected Stats: changed state");
+
+ });
+
+}
+
+exports.getPictureStats=function(start, end,token){
+ let accessToken=token
+ let key=this.props.hotel
+ let URL='http://checkinadvance.com/Statistics/GetPictures'
+ let params={
+   start:start,
+   end:end,
+   type:key,
+ };
+ //encode body into form urlencoded
+ let data = "";
+ for (var k in params) {
+     data += k + "=" + params[k] + "&"
+ }
+   fetch(URL, {
+    method: 'POST',
+    cache: false,
+    headers: {
+      'Authorization': 'Bearer ' + accessToken,
+       'Content-Type': 'application/x-www-form-urlencoded',
+       'Accept': 'application/json',
+
+    },
+    body: data
+   })
+   .then((response) => {
+
+      console.log(response);
+      return response.json()
+   })
+   .then((responseData)=>{
+     console.log("Picture Stats: got response");
+     console.log(responseData);
+     console.log(responseData.length)
+     this.setState({
+      pictureStats:responseData,
+      pictureLoaded:true
+     });
+
+     console.log("Picture Stats: changed state");
+
+ });
+
+}
+
+
+
+
+
 
 
 

@@ -34,6 +34,12 @@ class Dashboard extends Component{
      occupiedLoaded:false,
      availableLoaded:false,
      loginsLoaded:false,
+     emailsLoaded:false,
+     selectedLoaded:false,
+     pictureLoaded:false,
+     pictureStats:"",
+     selectedStats:"",
+     emailStats:"",
      loginStats:"",
      occupiedStats:"",
      guestStats:"",
@@ -51,6 +57,9 @@ class Dashboard extends Component{
      this.getOccupiedItems=HotelAdminService.getOccupiedItems.bind(this);
      this.getAvailableItems=HotelAdminService.getAvailableItems.bind(this);
      this.getLogins=HotelAdminService.getLogins.bind(this);
+     this.getEmailStats=HotelAdminService.getEmailStats.bind(this);
+     this.getSelectedStats=HotelAdminService.getSelectedStats.bind(this);
+     this.getPictureStats=HotelAdminService.getPictureStats.bind(this);
   }
 
   getData(date, date_end,token){
@@ -59,6 +68,9 @@ class Dashboard extends Component{
     HotelAdminService.getOccupiedItems.bind(this)(date, date_end, token );
     HotelAdminService.getAvailableItems.bind(this)(date, date_end, token);
     HotelAdminService.getLogins.bind(this)(date, date_end, token );
+    HotelAdminService.getEmailStats.bind(this)(date, date_end, token );
+    HotelAdminService.getSelectedStats.bind(this)(date, date_end, token );
+    HotelAdminService.getPictureStats.bind(this)(date, date_end, token );
   }
 
   //get the inital dates as today
@@ -80,10 +92,12 @@ class Dashboard extends Component{
     this.setState(
       {guestStatsLoaded:false,
       reservationStatsLoaded:false,
-      guestStatsLoaded:false,
       occupiedLoaded:false,
       availableLoaded:false,
-      loginsLoaded:false} ,this.getData.bind(this)(date1,date2)
+      loginsLoaded:false,
+      emailsLoaded:false,
+      selectedLoaded:false,
+      pictureLoaded:false} ,this.getData.bind(this)(date1,date2)
 
     )
   }
@@ -134,7 +148,7 @@ class Dashboard extends Component{
     var hotel = this.props.hotel
 
     //tum datalar gelene kadar progressbar
-    if (!(this.state.guestStatsLoaded && this.state.reservationStatsLoaded && this.state.occupiedLoaded  && this.state.availableLoaded && this.state.loginsLoaded )){
+    if (!(this.state.guestStatsLoaded && this.state.reservationStatsLoaded && this.state.occupiedLoaded  && this.state.availableLoaded && this.state.loginsLoaded &&this.state.emailsLoaded &&this.state.selectedLoaded )){
       return this.renderLoadingView();
     }
     //let guestStats=(this.state.guestStats.length != 0) ? this.state.guestStats[0]["Y"] : [];
@@ -142,6 +156,11 @@ class Dashboard extends Component{
 
     let loginStats=this.state.loginStats[0]['Y'];
     let guestStats=this.state.guestStats[0]["Y"];
+    let emailStats;
+    let pictureStats;
+    (this.state.emailStats.length ==0 ) ? emailStats=0 : emailStats=this.state.emailStats[0]['Y'];
+    (this.state.pictureStats.length ==0 ) ? pictureStats=0 : pictureStats=this.state.pictureStats[0]['Y']
+
     let moment1=this.state.moment1;
     let moment2=this.state.moment2;
     console.log(loginStats);
@@ -165,7 +184,7 @@ class Dashboard extends Component{
            </TouchableHighlight>
 
           </View>
-
+        <View style={{flex:21}}>
         <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
            <View style={styles.lineContainer}>
             <Image
@@ -178,7 +197,7 @@ class Dashboard extends Component{
            </View>
         </View>
         </TouchableHighlight>
-        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+        <TouchableHighlight onPress={()=>Actions.guestlist({hotel:hotel})}>
            <View style={styles.lineContainer}>
             <Image
              source={require('./images/keyring-icon.png')}
@@ -223,7 +242,7 @@ class Dashboard extends Component{
             />
             <View style={styles.rightContainer}>
             <Text style={styles.title}>Emails Sent</Text>
-            <Text style={styles.title}>Reservations</Text>
+            <Text style={styles.title}>{emailStats}</Text>
            </View>
         </View>
         </TouchableHighlight>
@@ -247,7 +266,7 @@ class Dashboard extends Component{
             />
             <View style={styles.rightContainer}>
             <Text style={styles.title}>Selected Items</Text>
-            <Text style={styles.title}>Reservations</Text>
+            <Text style={styles.title}></Text>
            </View>
         </View>
         </TouchableHighlight>
@@ -259,14 +278,14 @@ class Dashboard extends Component{
             />
             <View style={styles.rightContainer}>
             <Text style={styles.title}>Pictures</Text>
-            <Text style={styles.title}>Reservations</Text>
+            <Text style={styles.title}>{pictureStats}</Text>
            </View>
         </View>
         </TouchableHighlight>
 
         <View style={styles.footer}>
         </View>
-
+        </View>
       </View>
 
     )
@@ -303,7 +322,7 @@ const styles ={
   header:{
 
     backgroundColor: '#F5FCFF',
-    flex:3,
+    flex:2,
     flexDirection:'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -370,8 +389,8 @@ const styles ={
 		alignItems: 'center',
 	},
   thumbnail: {
-    width: 33,
-    height: 38,
+    width: 25,
+    height: 28,
     margin:13,
     paddingLeft:30,
 

@@ -46,7 +46,7 @@ class LoginView extends Component {
 
     maybeLoad() {
     if ( this.state.loading ) {
-        return <ProgressBar progress={this.state.progress} />;
+        return   <ProgressBar progress={this.state.progress} />;
     }
   }
 
