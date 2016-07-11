@@ -11,6 +11,7 @@ import {
   Image,
   ToolbarAndroid,
   DatePickerAndroid,
+  AsyncStorage,
 } from 'react-native';
 
 var ProgressBar = require('ProgressBarAndroid');
@@ -52,18 +53,21 @@ class Dashboard extends Component{
      this.getLogins=HotelAdminService.getLogins.bind(this);
   }
 
-  getData(date, date_end){
-    HotelAdminService.getReservationStats.bind(this)(date, date_end );
-    HotelAdminService.getGuestStats.bind(this)(date, date_end );
-    HotelAdminService.getOccupiedItems.bind(this)(date, date_end );
-    HotelAdminService.getAvailableItems.bind(this)(date, date_end);
-    HotelAdminService.getLogins.bind(this)(date, date_end );
+  getData(date, date_end,token){
+    HotelAdminService.getReservationStats.bind(this)(date, date_end, token );
+    HotelAdminService.getGuestStats.bind(this)(date, date_end, token );
+    HotelAdminService.getOccupiedItems.bind(this)(date, date_end, token );
+    HotelAdminService.getAvailableItems.bind(this)(date, date_end, token);
+    HotelAdminService.getLogins.bind(this)(date, date_end, token );
   }
 
   //get the inital dates as today
   componentDidMount(){
 
-    this.getData.bind(this)(this.state.moment1, this.state.moment2);//get stats from server
+      AsyncStorage.getItem('access_token').then((token)=> {//get token
+        this.getData.bind(this)(this.state.moment1, this.state.moment2,token);//get stats from server
+      }).done();
+
   }
 
 
@@ -303,6 +307,7 @@ const styles ={
     flexDirection:'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    padding:15
 
 
   },

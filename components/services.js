@@ -89,20 +89,17 @@ exports.login=function(){
                                                   })
                              .then((responseData) => {//responsedATA = RESPONSE.json()
 
-                                                   console.log("PLS PRINT:");
-                                                   console.log(responseStatus);
+
                                                    if(responseStatus == 200){ //proceed to next page
                                                      var token= responseData.access_token;
                                                      console.log("Token");
                                                      console.log(token);
                                                      AsyncStorage.setItem('access_token', token).then((value)=> {
 
-                                                       AsyncStorage.getItem('access_token').then((value) => {
-
                                                          fetch('http://checkinadvance.com/api/HotelAdmin/GetKey', {
                                                          method: 'GET',
                                                          headers: {
-                                                           'Authorization': 'Bearer ' + value,
+                                                           'Authorization': 'Bearer ' + token,
                                                           }
                                                         })
                                                         .then((response) => response.json())
@@ -115,7 +112,7 @@ exports.login=function(){
                                                              }
 
                                                          }).done();
-                                                       }).done();
+
                                                      }).done();
 
                                                    }
@@ -153,17 +150,13 @@ exports.getReservationList=function(){
           dataSource: this.state.dataSource.cloneWithRows(responseData),
 
         });
-
-
-
       }).done();
    })
  }
 
 //number of current guests in hotel
- exports.getGuestStats=function(start,end){
-
-
+ exports.getGuestStats=function(start,end,token){
+   let accessToken=token
    let key=this.props.hotel
    let URL='http://checkinadvance.com/Statistics/GetGuests'
    let params={
@@ -178,18 +171,15 @@ exports.getReservationList=function(){
        data += k + "=" + params[k] + "&"
    }
 
-   console.log("Guest Stats: Before reacging AsyncStorage");
-   AsyncStorage.getItem('access_token').then((value) =>{
-     console.log("Guest Stats: got token, sending request...");
+
 
      fetch(URL, {
       method: 'POST',
       cache: false,
       headers: {
-        'Authorization': 'Bearer ' + value,
+        'Authorization': 'Bearer ' + accessToken,
          'Content-Type': 'application/x-www-form-urlencoded',
          'Accept': 'application/json',
-
       },
       body: data
      })
@@ -198,9 +188,6 @@ exports.getReservationList=function(){
         return response.json()
      })
      .then((responseData)=>{
-    //   console.log("ResponseData in stats")
-    //   console.log(responseData);
-      // console.log(responseData[0]["Y"]);
          console.log('Guest Stats: got responseData');
          console.log(responseData);
        this.setState({
@@ -208,19 +195,12 @@ exports.getReservationList=function(){
          guestStatsLoaded:true,
        });
        console.log("Guest Stats: set state done");
-
-
-
-
-
      });
 
-
- }).done()
  }
 
- exports.getReservationStats=function(start,end){
-
+ exports.getReservationStats=function(start,end,token){
+   let accessToken=token
    let key=this.props.hotel
    let URL='http://checkinadvance.com/Statistics/GetReservationsBetweenDatesByKeys'
    let params={
@@ -235,14 +215,12 @@ exports.getReservationList=function(){
        data += k + "=" + params[k] + "&"
    }
    //chain htto requesrs to get all stats
-   console.log("Reservation Stats: reaching token")
-   AsyncStorage.getItem('access_token').then((value) =>{
-     console.log("Reservation Stats: got token, sending request...");
+
      fetch(URL, {
       method: 'POST',
       cache: false,
       headers: {
-        'Authorization': 'Bearer ' + value,
+        'Authorization': 'Bearer ' + accessToken,
          'Content-Type': 'application/x-www-form-urlencoded',
       //   'Accept': 'application/json',
 
@@ -266,12 +244,11 @@ exports.getReservationList=function(){
 
 
    }).done();
- }).done()
+
  }
 
- exports.getOccupiedItems=function(start,end){
-
-
+ exports.getOccupiedItems=function(start,end,token){
+  let accessToken=token
    let key=this.props.hotel
    let URL='http://checkinadvance.com/Statistics/GetOccupiedItems'
    let params={
@@ -286,17 +263,14 @@ exports.getReservationList=function(){
        data += k + "=" + params[k] + "&"
    }
    //chain htto requesrs to get all stats
-   console.log("Occup Stats: reaching token...")
-   AsyncStorage.getItem('access_token').then((value) =>{
-     console.log("Occup Stats: got token, sending request...");
+
      fetch(URL, {
       method: 'POST',
       cache: false,
       headers: {
-        'Authorization': 'Bearer ' + value,
+        'Authorization': 'Bearer ' + accessToken,
          'Content-Type': 'application/x-www-form-urlencoded',
          'Accept': 'application/json',
-
       },
       body: data
      })
@@ -313,13 +287,12 @@ exports.getReservationList=function(){
          occupiedLoaded:true
        });
        console.log("Occup stats: changed state")
-
    });
- }).done()
+
 }
 
-exports.getAvailableItems=function(start,end){
-
+exports.getAvailableItems=function(start,end,token){
+  let accessToken=token
   let key=this.props.hotel
   let URL='http://checkinadvance.com/Statistics/GetAvailableItems'
   let params={
@@ -334,21 +307,19 @@ exports.getAvailableItems=function(start,end){
       data += k + "=" + params[k] + "&"
   }
   //chain htto requesrs to get all stats
-  AsyncStorage.getItem('access_token').then((value) =>{
+
 
     fetch(URL, {
      method: 'POST',
      cache: false,
      headers: {
-       'Authorization': 'Bearer ' + value,
+       'Authorization': 'Bearer ' + accessToken,
         'Content-Type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json',
-
      },
      body: data
     })
     .then((response) => {
-
        console.log(response);
        return response.json()
     })
@@ -359,13 +330,12 @@ exports.getAvailableItems=function(start,end){
         availableStats:responseData,
         availableLoaded:true
       });
+   });
 
-  });
-})
 }
 
- exports.getLogins=function(start, end){
-
+ exports.getLogins=function(start, end,token){
+  let accessToken=token
   let key=this.props.hotel
   let URL='http://checkinadvance.com/Statistics/GetLogins'
   let params={
@@ -380,14 +350,13 @@ exports.getAvailableItems=function(start,end){
       data += k + "=" + params[k] + "&"
   }
   //chain htto requesrs to get all stats
-  console.log("Login Stats: reaching token...")
-  AsyncStorage.getItem('access_token').then((value) =>{
-    console.log("Login Stats: got token, fetching data...")
+
+
     fetch(URL, {
      method: 'POST',
      cache: false,
      headers: {
-       'Authorization': 'Bearer ' + value,
+       'Authorization': 'Bearer ' + accessToken,
         'Content-Type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json',
 
@@ -410,7 +379,7 @@ exports.getAvailableItems=function(start,end){
       console.log("Login Stats: changed state");
 
   });
-})
+
 }
 
 
