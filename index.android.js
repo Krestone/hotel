@@ -21,16 +21,49 @@ import Dashboard from './components/Dashboard.js';
 import ReservationList from './components/ReservationList.js';
 import GuestList from './components/GuestList.js';
 
-import {Scene, Router} from 'react-native-router-flux';
+import {Scene, Router,Actions} from 'react-native-router-flux';
 import Drawer from 'react-native-drawer'
 import SideDrawer from './components/SideDrawer.js';
 import SideDrawerContent from './components/SideDrawerContent.js'
 
+
+class navBar extends React.Component{
+
+  render(){
+   return(
+     <View style={styles.navBar}>
+        <TouchableOpacity
+        style={styles.leftButtonContainer}
+        onPress={Actions.pop}
+        >
+       <Image source={require('./components/images/ic_menu_white_24dp.png')} style={{height: 24, width: 24}} />
+     </TouchableOpacity>
+     <View style={styles.titleContainer} >
+         <Text style={styles.navTitle}>Dashboard</Text>
+       </View>
+       <TouchableOpacity
+       style={styles.leftButtonContainer}
+       onPress={Actions.pop}
+       >
+      <Image style={{height: 24, width: 24}} />
+    </TouchableOpacity>
+     </View>
+
+   )
+
+  }
+
+
+
+
+
+}
 class hotel extends React.Component {
   renderMenuButton () {
 		return (
 			<TouchableOpacity
 				style={styles.leftButtonContainer}
+        onPress={Actions.pop}
 
 			>
 				<Image
@@ -42,16 +75,24 @@ class hotel extends React.Component {
 	}
 
 
+  renderTitle(){
+    return(  <View style={styles.titleContainer} >
+        <Text style={styles.navTitle}>Dashboard</Text>
+      </View>
+)
+
+
+  }
+
+
   render() {
     return(
      <Router>
        <Scene key="root">
          <Scene key="pageOne" component={LoginView} initial={true} hideNavBar={true} />
          <Scene key="pageTwo" component={SecureView} title="PageTwo" hideNavBar={true} />
-         <Scene key="dashboard" component={Dashboard} title="Dashboard" hideNavBar={false}
-         navigationBarStyle={styles.navBar}
-         backButtonImage={require('./components/images/ic_arrow_back_white_24dp.png')}
-        titleStyle={styles.navTitle}
+         <Scene key="dashboard" component={Dashboard} hideNavBar={false} navBar={navBar}
+
 
          />
          <Scene key="reservationlist" component={ReservationList} title="ReservationList" hideNavBar={true} />
@@ -85,6 +126,14 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		backgroundColor: '#1d1820',
+    paddingTop: 0,
+    top: 0,
+    height: 54,
+    right: 0,
+    left: 0,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#828287',
+    position: 'absolute',
 	},
 	navTitle: {
 		color: 'white',
@@ -99,6 +148,14 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
+  titleContainer: {
+    paddingLeft: 15,
+    paddingRight: 20,
+    flex: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent:'center'
+  },
 });
 
 AppRegistry.registerComponent('hotel', () => hotel);
