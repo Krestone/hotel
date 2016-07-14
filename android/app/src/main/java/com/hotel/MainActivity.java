@@ -26,6 +26,7 @@ public class MainActivity extends ReactActivity {
     protected boolean getUseDeveloperSupport() {
         return BuildConfig.DEBUG;
     }
+    
 
     /**
      * A list of packages used by the app. If the app uses additional views

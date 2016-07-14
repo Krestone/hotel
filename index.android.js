@@ -16,6 +16,7 @@ import SecureView from './components/SecureView.js'
 import Dashboard from './components/Dashboard.js';
 import ReservationList from './components/ReservationList.js';
 import GuestList from './components/GuestList.js';
+import AvailableGraph from './components/AvailableGraph.js';
 
 import {Scene, Router,Actions} from 'react-native-router-flux';
 import Drawer from 'react-native-drawer'
@@ -23,7 +24,7 @@ import SideDrawer from './components/SideDrawer.js';
 import SideDrawerContent from './components/SideDrawerContent.js'
 
 
-class navBar extends React.Component{
+class navBarDash extends React.Component{
 
   render(){
    return(
@@ -48,12 +49,38 @@ class navBar extends React.Component{
    )
 
   }
-
-
-
-
-
 }
+
+class navBarStats extends React.Component{
+
+  render(){
+   return(
+     <View style={styles.navBar}>
+        <TouchableOpacity
+        style={styles.leftButtonContainer}
+        onPress={Actions.pop}
+        >
+       <Image source={require('./components/images/ic_arrow_back_white_24dp.png')} style={{height: 24, width: 24}} />
+     </TouchableOpacity>
+     <View style={styles.titleContainer} >
+         <Text style={styles.navTitle}>Statistics</Text>
+       </View>
+       <TouchableOpacity
+       style={styles.leftButtonContainer}
+       onPress={Actions.pop}
+       >
+      <Image style={{height: 24, width: 24}} />
+    </TouchableOpacity>
+     </View>
+
+   )
+
+  }
+}
+
+
+
+
 class hotel extends React.Component {
   renderMenuButton () {
 		return (
@@ -87,12 +114,10 @@ class hotel extends React.Component {
        <Scene key="root">
          <Scene key="pageOne" component={LoginView} initial={true} hideNavBar={true} />
          <Scene key="pageTwo" component={SecureView} title="PageTwo" hideNavBar={true} />
-         <Scene key="dashboard" component={Dashboard} hideNavBar={false} navBar={navBar}
-
-
-         />
+         <Scene key="dashboard" component={Dashboard} hideNavBar={false} navBar={navBarDash}/>
          <Scene key="reservationlist" component={ReservationList} title="ReservationList" hideNavBar={true} />
           <Scene key="guestlist" component={GuestList} title="GuestList" hideNavBar={true} />
+          <Scene key="availableGraph" component={AvailableGraph} title="AvailableGraph" hideNavBar={false} navBar={navBarStats} />
        </Scene>
     </Router>
    );

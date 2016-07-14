@@ -17,6 +17,8 @@ import {
 var ProgressBar = require('ProgressBarAndroid');
 import { Actions } from 'react-native-router-flux';
 var HotelAdminService = require('./services.js');
+import Chart from 'react-native-chart';
+
 
 
 class Dashboard extends Component{
@@ -32,7 +34,7 @@ class Dashboard extends Component{
      reservationStatsLoaded:false,
      guestStatsLoaded:false,
      occupiedLoaded:false,
-     availableLoaded:false,
+
      loginsLoaded:false,
      emailsLoaded:false,
      selectedLoaded:false,
@@ -55,30 +57,33 @@ class Dashboard extends Component{
      this.getGuestStats=HotelAdminService.getGuestStats.bind(this);
      this.getReservationStats=HotelAdminService.getReservationStats.bind(this);
      this.getOccupiedItems=HotelAdminService.getOccupiedItems.bind(this);
-     this.getAvailableItems=HotelAdminService.getAvailableItems.bind(this);
+     //this.getAvailableItems=HotelAdminService.getAvailableItems.bind(this);
      this.getLogins=HotelAdminService.getLogins.bind(this);
      this.getEmailStats=HotelAdminService.getEmailStats.bind(this);
      this.getSelectedStats=HotelAdminService.getSelectedStats.bind(this);
      this.getPictureStats=HotelAdminService.getPictureStats.bind(this);
   }
 
-  getData(date, date_end,token){
+  getData(date, date_end){
+     AsyncStorage.getItem('access_token').then((token)=> {
+
     HotelAdminService.getReservationStats.bind(this)(date, date_end, token );
     HotelAdminService.getGuestStats.bind(this)(date, date_end, token );
-    HotelAdminService.getOccupiedItems.bind(this)(date, date_end, token );
-    HotelAdminService.getAvailableItems.bind(this)(date, date_end, token);
+    //HotelAdminService.getOccupiedItems.bind(this)(date, date_end, token );
+    //HotelAdminService.getAvailableItems.bind(this)(date, date_end, token);
     HotelAdminService.getLogins.bind(this)(date, date_end, token );
     HotelAdminService.getEmailStats.bind(this)(date, date_end, token );
     HotelAdminService.getSelectedStats.bind(this)(date, date_end, token );
     HotelAdminService.getPictureStats.bind(this)(date, date_end, token );
+    }).done();
   }
 
   //get the inital dates as today
   componentDidMount(){
 
-      AsyncStorage.getItem('access_token').then((token)=> {//get token
-        this.getData.bind(this)(this.state.moment1, this.state.moment2,token);//get stats from server
-      }).done();
+    //get token
+        this.getData.bind(this)(this.state.moment1, this.state.moment2);//get stats from server
+
 
   }
 
@@ -93,7 +98,7 @@ class Dashboard extends Component{
       {guestStatsLoaded:false,
       reservationStatsLoaded:false,
       occupiedLoaded:false,
-      availableLoaded:false,
+
       loginsLoaded:false,
       emailsLoaded:false,
       selectedLoaded:false,
@@ -148,7 +153,7 @@ class Dashboard extends Component{
     var hotel = this.props.hotel
 
     //tum datalar gelene kadar progressbar
-    if (!(this.state.guestStatsLoaded && this.state.reservationStatsLoaded && this.state.occupiedLoaded  && this.state.availableLoaded && this.state.loginsLoaded &&this.state.emailsLoaded &&this.state.selectedLoaded )){
+    if (!(this.state.guestStatsLoaded && this.state.reservationStatsLoaded  && this.state.loginsLoaded &&this.state.emailsLoaded &&this.state.selectedLoaded )){
       return this.renderLoadingView();
     }
     //let guestStats=(this.state.guestStats.length != 0) ? this.state.guestStats[0]["Y"] : [];
@@ -209,7 +214,7 @@ class Dashboard extends Component{
            </View>
         </View>
         </TouchableHighlight>
-        <TouchableHighlight onPress={()=>Actions.guestlist({hotel:hotel})}>
+        <TouchableHighlight onPress={()=>Actions.availableGraph({hotel:hotel})}>
            <View style={styles.lineContainer}>
             <Image
              source={require('./images/sign-check-icon.png')}
@@ -278,6 +283,18 @@ class Dashboard extends Component{
             />
             <View style={styles.rightContainer}>
             <Text style={styles.title}>Pictures</Text>
+            <Text style={styles.title}>{pictureStats}</Text>
+           </View>
+        </View>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={()=>Actions.reservationlist({hotel:hotel})}>
+           <View style={styles.lineContainer}>
+            <Image
+             source={require('./images/folder-picture-icon.png')}
+             style={styles.thumbnail}
+            />
+            <View style={styles.rightContainer}>
+            <Text style={styles.title}>More Stats</Text>
             <Text style={styles.title}>{pictureStats}</Text>
            </View>
         </View>
@@ -389,9 +406,9 @@ const styles ={
 		alignItems: 'center',
 	},
   thumbnail: {
-    width: 25,
+    width: 23,
     height: 28,
-    margin:13,
+    margin:8,
     paddingLeft:30,
 
 
