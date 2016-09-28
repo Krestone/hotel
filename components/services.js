@@ -37,7 +37,7 @@ async function TokenGet(){
      var token = await AsyncStorage.getItem('access_token');
      return token;
 }
-//date i requeste uygun formata sokuyor
+//puts date in proper format
 exports.getNowInFormat=function(newDate){
   let now=newDate;
   let year=now.getFullYear();
@@ -54,8 +54,8 @@ exports.getNowInFormat=function(newDate){
 }
 exports.login=function(){
 
-    var usr= 'yasemincidem@gmail.com';
-    var pass='yasemin1991';
+    var usr= this.state.username;
+    var pass=this.state.password;
     this.setState({
       loading:true,
     })
