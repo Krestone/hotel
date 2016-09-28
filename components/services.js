@@ -17,8 +17,8 @@ import LocalDb from './LocalDatabase.js'
 
 
 var config = {
-		//baseUrl: "https://checkinadvance.com/",
-		baseUrl: "http://checkinadvance.com/",
+		
+		//baseUrl: REMOVED FOR PRIVACY,
 		remoteDataUrl: "/",
 		cache: false,
 		timeout: 100000,
@@ -70,8 +70,9 @@ exports.login=function(){
     for (var k in params) {
         data += k + "=" + params[k] + "&"
     }
+	let url=config.baseUrl + 'tokenn';
 
-         fetch('https://checkinadvance.com/tokenn', {
+         fetch(url, {
                               method: 'POST',
                               timeout: config.timeout,
                               headers: {
@@ -158,7 +159,7 @@ exports.getReservationList=function(){
  exports.getGuestStats=function(start,end,token){
    let accessToken=token
    let key=this.props.hotel
-   let URL='http://checkinadvance.com/Statistics/GetGuests'
+   let URL=config.baseURL + 'Statistics/GetGuests'
    let params={
      start:start,
      end:end,
@@ -202,7 +203,7 @@ exports.getReservationList=function(){
  exports.getReservationStats=function(start,end,token){
    let accessToken=token
    let key=this.props.hotel
-   let URL='http://checkinadvance.com/Statistics/GetReservationsBetweenDatesByKeys'
+   let URL=config.baseUrl + 'Statistics/GetReservationsBetweenDatesByKeys'
    let params={
      start:start,
      end:end,
@@ -250,7 +251,7 @@ exports.getReservationList=function(){
  exports.getOccupiedItems=function(start,end,token){
   let accessToken=token
    let key=this.props.hotel
-   let URL='http://checkinadvance.com/Statistics/GetOccupiedItems'
+   let URL=config.baseUrl + 'Statistics/GetOccupiedItems'
    let params={
      start:start,
      end:end,
@@ -294,7 +295,7 @@ exports.getReservationList=function(){
 exports.getAvailableItems=function(start,end,token){
   let accessToken=token
   let key=this.props.hotel
-  let URL='http://checkinadvance.com/Statistics/GetAvailableItems'
+  let URL=config.baseUrl + 'Statistics/GetAvailableItems'
   let params={
     start:start,
     end:end,
@@ -337,7 +338,7 @@ exports.getAvailableItems=function(start,end,token){
  exports.getLogins=function(start, end,token){
   let accessToken=token
   let key=this.props.hotel
-  let URL='http://checkinadvance.com/Statistics/GetLogins'
+  let URL=config.baseUrl + 'Statistics/GetLogins'
   let params={
     start:start,
     end:end,
@@ -386,7 +387,7 @@ exports.getAvailableItems=function(start,end,token){
 exports.getEmailStats=function(start, end,token){
  let accessToken=token
  let key=this.props.hotel
- let URL='http://checkinadvance.com/Statistics/SentEmails'
+ let URL=config.baseUrl +'Statistics/SentEmails'
  let params={
    start:start,
    end:end,
@@ -431,7 +432,7 @@ exports.getEmailStats=function(start, end,token){
 exports.getSelectedStats=function(start, end,token){
  let accessToken=token
  let key=this.props.hotel
- let URL='http://checkinadvance.com/Statistics/SelectedItems'
+ let URL=config.baseUrl + 'Statistics/SelectedItems'
  let params={
    start:start,
    end:end,
@@ -476,7 +477,7 @@ exports.getSelectedStats=function(start, end,token){
 exports.getPictureStats=function(start, end,token){
  let accessToken=token
  let key=this.props.hotel
- let URL='http://checkinadvance.com/Statistics/GetPictures'
+ let URL=config.baseUrl + 'Statistics/GetPictures'
  let params={
    start:start,
    end:end,
@@ -559,8 +560,8 @@ exports.getPictureStats=function(start, end,token){
 exports.tester=function(){
 
   AsyncStorage.getItem('access_token').then((value) => {
-
-    fetch('http://checkinadvance.com/api/HotelAdmin/GetKey', {
+    let URL=config.baseUrl + 'api/HotelAdmin/GetKey'
+    fetch(URL, {
     method: 'GET',
     headers: {
       'Authorization': 'Bearer ' + value,
