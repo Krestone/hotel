@@ -96,8 +96,9 @@ exports.login=function(){
                                                      console.log("Token");
                                                      console.log(token);
                                                      AsyncStorage.setItem('access_token', token).then((value)=> {
-
-                                                         fetch('http://checkinadvance.com/api/HotelAdmin/GetKey', {
+							     
+                                                         let URL1=config.baseUrl + 'api/HotelAdmin/GetKey';
+                                                         fetch(URL1, {
                                                          method: 'GET',
                                                          headers: {
                                                            'Authorization': 'Bearer ' + token,
