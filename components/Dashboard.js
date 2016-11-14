@@ -67,15 +67,16 @@ class Dashboard extends Component{
   getData(date, date_end){
      AsyncStorage.getItem('access_token').then((token)=> {
 
-    HotelAdminService.getReservationStats.bind(this)(date, date_end, token );
-    HotelAdminService.getGuestStats.bind(this)(date, date_end, token );
-    //HotelAdminService.getOccupiedItems.bind(this)(date, date_end, token );
-    //HotelAdminService.getAvailableItems.bind(this)(date, date_end, token);
-    HotelAdminService.getLogins.bind(this)(date, date_end, token );
-    HotelAdminService.getEmailStats.bind(this)(date, date_end, token );
-    HotelAdminService.getSelectedStats.bind(this)(date, date_end, token );
-    HotelAdminService.getPictureStats.bind(this)(date, date_end, token );
-    }).done();
+    	HotelAdminService.getReservationStats.bind(this)(date, date_end, token );
+	HotelAdminService.getGuestStats.bind(this)(date, date_end, token );
+   	//HotelAdminService.getOccupiedItems.bind(this)(date, date_end, token );
+        //HotelAdminService.getAvailableItems.bind(this)(date, date_end, token);
+        HotelAdminService.getLogins.bind(this)(date, date_end, token );
+        HotelAdminService.getEmailStats.bind(this)(date, date_end, token );
+        HotelAdminService.getSelectedStats.bind(this)(date, date_end, token );
+        HotelAdminService.getPictureStats.bind(this)(date, date_end, token );
+    
+     }).done();
   }
 
   //get the inital dates as today
