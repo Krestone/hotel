@@ -51,32 +51,13 @@ class ReservationList extends Component {
   }
 
   componentDidMount() {
-  HotelAdminService.getReservationList.bind(this)();
-  console.log("Props in componenetDidMount");
-  console.log(this.props);
+    HotelAdminService.getReservationList.bind(this)();
+    console.log("Props in componenetDidMount");
+    console.log(this.props);
   }
-
-
-
-  renderLoadingView() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>
-          Gelsin Filmler...
-        </Text>
-      </View>
-    );
-  }
-
-
-
-
-
 
   _onRefresh() {
-
-
-   this.setState({refreshing: true});
+    this.setState({refreshing: true});
 
     let URL= 'http://checkinadvance.com/'+ 'api/HotelAdmin/GetReservations?key=' + this.props.hotel;
 
@@ -103,8 +84,6 @@ class ReservationList extends Component {
 
 
 
-
-
   render() {
     console.log("Props in ReservationList render");
     console.log(this.props);
@@ -126,15 +105,16 @@ class ReservationList extends Component {
         </View>
   );
 }
-renderLoadingView() {
-  return (
-    <View style={styles.loadingContainer}>
+
+  renderLoadingView() {
+    return (
+      <View style={styles.loadingContainer}>
 
         <ProgressBar progress={this.state.progress} />
 
-    </View>
-  );
-}
+      </View>
+    );
+ }
 
 
 
