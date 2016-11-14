@@ -42,11 +42,6 @@ class ReservationList extends Component {
      this.renderHotel = this.renderHotel.bind(this);
      this.getReservationList=HotelAdminService.getReservationList.bind(this);
      this.setSearchText=this.setSearchText.bind(this)
-    //  this.SearchBar=this.SearchBar.bind(this);
-    // this.refreshData=this.refreshData.bind(this);
-  //   this.tester= HotelAdminService.tester.bind(this);
-     //LocalDb.getAccessToken=LocalDb.getAccessToken.bind(this);
-    // HotelAdminService.tester.bind(this);
 
   }
 
